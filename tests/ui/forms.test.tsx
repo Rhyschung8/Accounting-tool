@@ -1,6 +1,6 @@
 // tests/ui/forms.test.tsx
 import { describe, it, expect } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { StoreProvider } from '../../src/state/useStore'
 import { createStore } from '../../src/state/store'
 import { createMemoryStorage } from '../../src/storage/memoryStorage'
@@ -28,7 +28,7 @@ describe('GotPaidForm', () => {
     fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '30' } })
     fireEvent.change(screen.getByLabelText(/name/i), { target: { value: 'Emma' } })
     fireEvent.click(screen.getByRole('button', { name: /save/i }))
-    expect(store.getState().entries.filter(e => e.type === 'income')).toHaveLength(1)
+    await waitFor(() => expect(store.getState().entries.filter(e => e.type === 'income')).toHaveLength(1))
   })
 
   it('shows repeat-payer buttons from prior income entries', async () => {
@@ -65,9 +65,7 @@ describe('GotPaidForm', () => {
     )
     const initialCount = store.getState().entries.filter(e => e.type === 'income').length
     fireEvent.click(screen.getByText(/Bob/))
-    // Wait for async addEntry
-    await new Promise(r => setTimeout(r, 50))
-    expect(store.getState().entries.filter(e => e.type === 'income')).toHaveLength(initialCount + 1)
+    await waitFor(() => expect(store.getState().entries.filter(e => e.type === 'income')).toHaveLength(initialCount + 1))
     expect(done).toBe(true)
   })
 })
@@ -84,8 +82,7 @@ describe('BoughtSomethingForm', () => {
     fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '12.50' } })
     fireEvent.change(screen.getByLabelText(/what/i), { target: { value: 'Piano strings' } })
     fireEvent.click(screen.getByRole('button', { name: /save/i }))
-    await new Promise(r => setTimeout(r, 50))
-    expect(store.getState().entries.filter(e => e.type === 'expense')).toHaveLength(1)
+    await waitFor(() => expect(store.getState().entries.filter(e => e.type === 'expense')).toHaveLength(1))
   })
 
   it('shows large purchase question when amount exceeds threshold', async () => {
@@ -102,9 +99,7 @@ describe('BoughtSomethingForm', () => {
     // Change category from default (uncategorised) to 'professional'
     fireEvent.change(screen.getByLabelText(/category/i), { target: { value: 'professional' } })
     fireEvent.click(screen.getByRole('button', { name: /save/i }))
-    await new Promise(r => setTimeout(r, 50))
-    // Should have learned the merchant
-    expect(store.getState().learnedMerchants['mystery vendor']).toBe('professional')
+    await waitFor(() => expect(store.getState().learnedMerchants['mystery vendor']).toBe('professional'))
   })
 })
 
@@ -124,10 +119,11 @@ describe('DroveToLessonForm', () => {
     fireEvent.change(screen.getByLabelText(/destination/i), { target: { value: 'Twickenham' } })
     fireEvent.change(screen.getByLabelText(/miles/i), { target: { value: '8' } })
     fireEvent.click(screen.getByRole('button', { name: /save/i }))
-    await new Promise(r => setTimeout(r, 50))
-    const journeys = store.getState().entries.filter(e => e.type === 'journey')
-    expect(journeys).toHaveLength(1)
-    expect((journeys[0].details as { destination: string }).destination).toBe('Twickenham')
+    await waitFor(() => {
+      const journeys = store.getState().entries.filter(e => e.type === 'journey')
+      expect(journeys).toHaveLength(1)
+      expect((journeys[0].details as { destination: string }).destination).toBe('Twickenham')
+    })
   })
 
   it('shows saved-journey buttons from prior journey entries', async () => {
@@ -160,7 +156,15 @@ describe('WorkedFromHomeForm', () => {
     const store = await mount(() => <WorkedFromHomeForm onDone={() => {}} />)
     fireEvent.change(screen.getByLabelText(/hours per week/i), { target: { value: '40' } })
     fireEvent.click(screen.getByRole('button', { name: /save/i }))
-    await new Promise(r => setTimeout(r, 50))
-    expect(store.getState().settings.hoursPerWeekAtHome).toBe(40)
+    await waitFor(() => expect(store.getState().settings.hoursPerWeekAtHome).toBe(40))
+  })
+
+  it('regenerates home_office entries after saving qualifying hours', async () => {
+    const store = await mount(() => <WorkedFromHomeForm onDone={() => {}} />)
+    fireEvent.change(screen.getByLabelText(/hours per week/i), { target: { value: '30' } })
+    fireEvent.click(screen.getByRole('button', { name: /save/i }))
+    await waitFor(() =>
+      expect(store.getState().entries.filter(e => e.type === 'home_office')).toHaveLength(12),
+    )
   })
 })

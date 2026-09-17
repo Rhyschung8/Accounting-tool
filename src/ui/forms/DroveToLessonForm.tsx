@@ -47,12 +47,12 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
         </button>
       ))}
       {!isNew && (
-        <button onClick={() => setIsNew(true)}>Somewhere new / 새 장소</button>
+        <button onClick={() => setIsNew(true)}>새 장소 / Somewhere new</button>
       )}
       {isNew && (
         <div>
           <label>
-            Where to / 어디로
+            어디로 / Where to
             <input
               aria-label="destination"
               value={destination}
@@ -61,7 +61,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
             />
           </label>
           <label>
-            Miles / 거리
+            거리 / Miles
             <input
               aria-label="miles"
               value={miles}
@@ -74,7 +74,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
               We worked this out for you: <MoneyDisplay pence={pence} />
             </p>
           )}
-          <button onClick={() => add(destination, milesNum)}>Save / 저장</button>
+          <button onClick={() => add(destination, milesNum)}>저장 / Save</button>
         </div>
       )}
     </div>

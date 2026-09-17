@@ -6,10 +6,10 @@ import { categorise } from '../../domain/categoriser'
 import { CATEGORIES } from '../../config/categories'
 
 const BUSINESS_USE_OPTIONS = [
-  { label: 'Only teaching / 수업 전용', percent: 100 },
-  { label: 'Also personal (75% teaching) / 대부분 수업용', percent: 75 },
-  { label: 'Also personal (50% teaching) / 절반 수업용', percent: 50 },
-  { label: 'Also personal (25% teaching) / 일부 수업용', percent: 25 },
+  { label: '수업 전용 / Only teaching', percent: 100 },
+  { label: '대부분 수업용 / Also personal (75% teaching)', percent: 75 },
+  { label: '절반 수업용 / Also personal (50% teaching)', percent: 50 },
+  { label: '일부 수업용 / Also personal (25% teaching)', percent: 25 },
 ]
 
 export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
@@ -41,7 +41,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
   async function handleSave() {
     const fullPence = parsePence(amount)
     if (fullPence === null) {
-      setAmountError('Please enter a valid amount / 금액을 입력해 주세요')
+      setAmountError('금액을 입력해 주세요 / Please enter a valid amount')
       return
     }
     setAmountError('')
@@ -76,7 +76,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
   return (
     <div>
       <label>
-        Date / 날짜
+        날짜 / Date
         <input
           aria-label="date"
           type="date"
@@ -85,7 +85,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
         />
       </label>
       <label>
-        Amount / 금액
+        금액 / Amount
         <input
           aria-label="amount"
           value={amount}
@@ -95,7 +95,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
       </label>
       {amountError && <p role="alert">{amountError}</p>}
       <label>
-        What / 무엇
+        무엇 / What
         <input
           aria-label="what"
           value={description}
@@ -104,7 +104,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
         />
       </label>
       <label>
-        Category / 분류
+        분류 / Category
         <select
           aria-label="category"
           value={category}
@@ -112,14 +112,14 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
         >
           {CATEGORIES.map(cat => (
             <option key={cat.key} value={cat.key}>
-              {cat.labelEn} / {cat.labelKo}
+              {cat.labelKo} / {cat.labelEn}
             </option>
           ))}
         </select>
       </label>
       {showBusinessUse && (
         <fieldset>
-          <legend>Business use / 업무 사용 비율</legend>
+          <legend>업무 사용 비율 / Business use</legend>
           {BUSINESS_USE_OPTIONS.map(opt => (
             <label key={opt.percent}>
               <input
@@ -134,7 +134,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
           ))}
         </fieldset>
       )}
-      <button onClick={handleSave}>Save / 저장</button>
+      <button onClick={handleSave}>저장 / Save</button>
     </div>
   )
 }

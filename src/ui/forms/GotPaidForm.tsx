@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react'
 import { useStore } from '../../state/useStore'
 import { parsePence } from '../../domain/money'
+import { MoneyDisplay } from '../components/MoneyDisplay'
 
 export function GotPaidForm({ onDone }: { onDone: () => void }) {
   const { state, addEntry } = useStore()
@@ -38,7 +39,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
   async function handleSave() {
     const pence = parsePence(amount)
     if (pence === null) {
-      setAmountError('Please enter a valid amount / 금액을 입력해 주세요')
+      setAmountError('금액을 입력해 주세요 / Please enter a valid amount')
       return
     }
     setAmountError('')
@@ -56,16 +57,16 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
     <div>
       {payers.map(([desc, pence]) => (
         <button key={desc} onClick={() => addRepeat(desc, pence)}>
-          {desc} — £{(pence / 100).toFixed(2)}
+          {desc} — <MoneyDisplay pence={pence} />
         </button>
       ))}
       {!isNew && (
-        <button onClick={() => setIsNew(true)}>Someone new / 새 분</button>
+        <button onClick={() => setIsNew(true)}>새 분 / Someone new</button>
       )}
       {isNew && (
         <div>
           <label>
-            Date / 날짜
+            날짜 / Date
             <input
               aria-label="date"
               type="date"
@@ -74,7 +75,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
             />
           </label>
           <label>
-            Amount / 금액
+            금액 / Amount
             <input
               aria-label="amount"
               value={amount}
@@ -84,7 +85,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
           </label>
           {amountError && <p role="alert">{amountError}</p>}
           <label>
-            Name / 이름
+            이름 / Name
             <input
               aria-label="name"
               value={name}
@@ -92,7 +93,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
               placeholder="e.g. Emma"
             />
           </label>
-          <button onClick={handleSave}>Save / 저장</button>
+          <button onClick={handleSave}>저장 / Save</button>
         </div>
       )}
     </div>

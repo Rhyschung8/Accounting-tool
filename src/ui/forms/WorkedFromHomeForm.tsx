@@ -17,7 +17,7 @@ export function WorkedFromHomeForm({ onDone }: { onDone: () => void }) {
   return (
     <div>
       <label>
-        Hours per week working from home / 주당 재택근무 시간
+        주당 재택근무 시간 / Hours per week working from home
         <input
           aria-label="hours per week"
           type="number"
@@ -26,7 +26,7 @@ export function WorkedFromHomeForm({ onDone }: { onDone: () => void }) {
           onChange={e => setHours(e.target.value)}
         />
       </label>
-      <button onClick={handleSave}>Save / 저장</button>
+      <button onClick={handleSave}>저장 / Save</button>
     </div>
   )
 }
