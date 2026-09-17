@@ -23,6 +23,11 @@ function AppShell({
   onFolderPicked?: (handle: FileSystemDirectoryHandle) => void
 }) {
   const { state, setSettings } = useStore()
+
+  // Apply text size to <html> reactively whenever it changes
+  useEffect(() => {
+    document.documentElement.dataset.textSize = state.settings.textSize
+  }, [state.settings.textSize])
   const [backupDone, setBackupDone] = useState(false)
 
   // R9: run weekly backup once on first mount, only in real browsers with a dirHandle

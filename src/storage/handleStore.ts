@@ -17,13 +17,12 @@ function openDb(): Promise<IDBDatabase> {
 
 export async function saveDirHandle(handle: FileSystemDirectoryHandle): Promise<void> {
   const db = await openDb()
-  return new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite')
-    const store = tx.objectStore(STORE_NAME)
-    const req = store.put(handle, HANDLE_KEY)
-    req.onsuccess = () => resolve()
-    req.onerror = () => reject(req.error)
-    tx.oncomplete = () => db.close()
+    tx.objectStore(STORE_NAME).put(handle, HANDLE_KEY)
+    tx.oncomplete = () => { db.close(); resolve() }
+    tx.onerror = () => { db.close(); reject(tx.error) }
+    tx.onabort = () => { db.close(); reject(tx.error) }
   })
 }
 
@@ -31,15 +30,12 @@ export async function loadDirHandle(): Promise<FileSystemDirectoryHandle | null>
   const db = await openDb()
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readonly')
-    const store = tx.objectStore(STORE_NAME)
-    const req = store.get(HANDLE_KEY)
-    req.onsuccess = () => {
+    const req = tx.objectStore(STORE_NAME).get(HANDLE_KEY)
+    tx.oncomplete = () => {
       db.close()
       resolve((req.result as FileSystemDirectoryHandle | undefined) ?? null)
     }
-    req.onerror = () => {
-      db.close()
-      reject(req.error)
-    }
+    tx.onerror = () => { db.close(); reject(tx.error) }
+    tx.onabort = () => { db.close(); reject(tx.error) }
   })
 }

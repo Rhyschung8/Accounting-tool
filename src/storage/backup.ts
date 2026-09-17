@@ -28,7 +28,7 @@ export async function maybeWeeklyBackup(
   now: Date = new Date(),
 ): Promise<string> {
   const last = lastBackupIso ?? null
-  if (!shouldBackup(last, now)) return last ?? now.toISOString()
+  if (!shouldBackup(last, now)) return lastBackupIso as string
   await writeBackup(dirHandle, json, now)
   return now.toISOString()
 }

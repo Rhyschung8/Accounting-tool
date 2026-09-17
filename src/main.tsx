@@ -45,12 +45,6 @@ async function boot() {
 
   const store = createStore(storage)
 
-  // Apply saved text-size to <html> before first render
-  store.init().then(() => {
-    const textSize = store.getState().settings.textSize
-    document.documentElement.dataset.textSize = textSize
-  })
-
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <App store={store} dirHandle={dirHandle} onFolderPicked={onFolderPicked} />
