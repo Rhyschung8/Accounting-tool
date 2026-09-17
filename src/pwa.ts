@@ -8,9 +8,6 @@ export function registerServiceWorker(): void {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js', { scope: '/' })
-      .then((_reg) => {
-        // registered successfully
-      })
       .catch((err) => {
         console.warn('[PWA] Service worker registration failed:', err)
       })

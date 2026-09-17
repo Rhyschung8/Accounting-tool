@@ -4,6 +4,7 @@
 // the app reads/writes data exclusively via the File System Access API,
 // which bypasses the fetch handler entirely.
 
+// Bump this version on each deploy to invalidate old caches.
 const CACHE_NAME = 'piano-accounts-v1'
 
 // On install, cache nothing in advance (we don't know hashed asset names at
@@ -35,6 +36,20 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(request.url)
     if (url.origin !== self.location.origin) return
   } catch {
+    return
+  }
+
+  // Navigation requests (HTML pages): network-first to avoid stale app shell.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request)
+        .then((resp) => {
+          const copy = resp.clone()
+          caches.open(CACHE_NAME).then((c) => c.put(request, copy))
+          return resp
+        })
+        .catch(() => caches.match(request).then((m) => m || caches.match('/index.html')))
+    )
     return
   }
 
