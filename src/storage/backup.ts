@@ -16,3 +16,19 @@ export async function writeBackup(
   await w.write(json)
   await w.close()
 }
+
+/**
+ * R9: Check if a weekly backup is due; if so, write it and return the new ISO timestamp.
+ * Returns the existing lastBackupIso unchanged if no backup was needed or an error occurred.
+ */
+export async function maybeWeeklyBackup(
+  dirHandle: FileSystemDirectoryHandle,
+  json: string,
+  lastBackupIso: string | null | undefined,
+  now: Date = new Date(),
+): Promise<string> {
+  const last = lastBackupIso ?? null
+  if (!shouldBackup(last, now)) return last ?? now.toISOString()
+  await writeBackup(dirHandle, json, now)
+  return now.toISOString()
+}

@@ -6,6 +6,7 @@ export interface Settings {
   textSize: 'normal' | 'large' | 'xlarge'
   largePurchaseThresholdPence: number
   folderChosen: boolean
+  lastBackupAt?: string | null
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -14,6 +15,7 @@ export const DEFAULT_SETTINGS: Settings = {
   textSize: 'large',
   largePurchaseThresholdPence: 50_000,
   folderChosen: false,
+  lastBackupAt: null,
 }
 
 export interface AppData {

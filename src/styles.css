@@ -1,0 +1,273 @@
+/* src/styles.css
+ * High-contrast, large-text base styles.
+ * Text size is driven by [data-text-size="normal|large|xlarge"] on <html>.
+ */
+
+/* ─── Reset ─────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base typography & colour ──────────────────────────── */
+:root {
+  --colour-bg: #ffffff;
+  --colour-fg: #111111;
+  --colour-accent: #1a73e8;
+  --colour-muted: #555555;
+  --colour-border: #333333;
+  --font-size-base: 18px;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --tap-min: 48px;
+}
+
+html {
+  font-size: var(--font-size-base);
+  background: var(--colour-bg);
+  color: var(--colour-fg);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+}
+
+/* ─── Text-size overrides ───────────────────────────────── */
+html[data-text-size="normal"] {
+  --font-size-base: 16px;
+}
+html[data-text-size="large"] {
+  --font-size-base: 20px;
+}
+html[data-text-size="xlarge"] {
+  --font-size-base: 24px;
+}
+
+/* ─── App shell ─────────────────────────────────────────── */
+.app-shell {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ─── Year selector ─────────────────────────────────────── */
+.year-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.year-selector label {
+  font-weight: 600;
+}
+
+.year-selector select {
+  font-size: inherit;
+  padding: 0.4rem 0.75rem;
+  border: 2px solid var(--colour-border);
+  border-radius: 6px;
+  min-height: var(--tap-min);
+  background: var(--colour-bg);
+  color: var(--colour-fg);
+}
+
+/* ─── Big buttons ───────────────────────────────────────── */
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.big-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: calc(var(--tap-min) * 1.75);
+  padding: 1rem 0.5rem;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  background: var(--colour-fg);
+  color: var(--colour-bg);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.big-button:focus-visible {
+  outline: 3px solid var(--colour-accent);
+  outline-offset: 2px;
+}
+
+.big-button__icon {
+  font-size: var(--font-size-xl);
+}
+
+/* ─── Secondary nav ─────────────────────────────────────── */
+.secondary-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.secondary-link {
+  font-size: inherit;
+  padding: 0.5rem 1rem;
+  min-height: var(--tap-min);
+  border: 2px solid var(--colour-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--colour-fg);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.secondary-link:focus-visible {
+  outline: 3px solid var(--colour-accent);
+  outline-offset: 2px;
+}
+
+/* ─── CSV export button ─────────────────────────────────── */
+.csv-export-btn {
+  font-size: inherit;
+  padding: 0.5rem 1rem;
+  min-height: var(--tap-min);
+  border: 2px solid var(--colour-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--colour-fg);
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+/* ─── Back link ─────────────────────────────────────────── */
+.back-link {
+  font-size: inherit;
+  padding: 0.4rem 0.75rem;
+  min-height: var(--tap-min);
+  border: none;
+  background: transparent;
+  color: var(--colour-accent);
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: flex-start;
+}
+
+/* ─── Modal ─────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: var(--colour-bg);
+  color: var(--colour-fg);
+  width: 100%;
+  max-width: 640px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  border-radius: 16px 16px 0 0;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Summary panel ─────────────────────────────────────── */
+.summary {
+  padding: 1rem;
+  border: 2px solid var(--colour-border);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.summary__tax {
+  font-weight: 600;
+}
+
+.summary__caveat {
+  font-size: 0.85em;
+  color: var(--colour-muted);
+}
+
+.summary__loss {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+/* ─── Entry list ─────────────────────────────────────────── */
+.entry-list section {
+  margin-bottom: 1.25rem;
+}
+
+.entry-row {
+  min-height: var(--tap-min);
+}
+
+/* ─── Buttons (generic) ─────────────────────────────────── */
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ─── Print styles ──────────────────────────────────────── */
+@media print {
+  .modal-overlay,
+  .action-buttons,
+  .secondary-nav,
+  .csv-export-btn,
+  .back-link,
+  .modal-close {
+    display: none !important;
+  }
+
+  .app-shell {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+  }
+
+  .summary {
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+
+  .entry-list section {
+    page-break-inside: avoid;
+  }
+}

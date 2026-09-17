@@ -7,7 +7,14 @@ import { pickFolder } from '../storage/fileSystemStorage'
 
 type Screen = 'folder' | 'homeHours' | 'otherIncome'
 
-export function FirstRun({ onComplete }: { onComplete: () => void }) {
+export function FirstRun({
+  onComplete,
+  onFolderPicked,
+}: {
+  onComplete: () => void
+  /** Optional — called with the chosen handle so main.tsx can save it to IDB and swap the adapter */
+  onFolderPicked?: (handle: FileSystemDirectoryHandle) => void
+}) {
   const { setSettings, regenerateHomeOffice } = useStore()
   const [screen, setScreen] = useState<Screen>('folder')
   const [hours, setHours] = useState('')
@@ -15,8 +22,9 @@ export function FirstRun({ onComplete }: { onComplete: () => void }) {
 
   async function handleFolderPick() {
     try {
-      await pickFolder()
+      const handle = await pickFolder()
       await setSettings({ folderChosen: true })
+      onFolderPicked?.(handle)
     } catch {
       // User dismissed the picker — still allow continuing
     }
