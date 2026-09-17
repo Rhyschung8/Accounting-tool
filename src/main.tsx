@@ -6,6 +6,9 @@ import { createStore } from './state/store'
 import { createMemoryStorage } from './storage/memoryStorage'
 import { createFileSystemStorage } from './storage/fileSystemStorage'
 import './styles.css'
+import { registerServiceWorker } from './pwa'
+
+registerServiceWorker()
 
 async function boot() {
   let storage = createMemoryStorage()
