@@ -12,4 +12,21 @@ describe('memory storage', () => {
     await s.save(data)
     expect((await s.load()).settings.hoursPerWeekAtHome).toBe(30)
   })
+
+  it('saves and reads receipt urls', async () => {
+    const s = createMemoryStorage()
+    const file = new File(['x'], 'r.jpg')
+    const filename = await s.saveReceipt(file)
+    expect(filename).toBeTruthy()
+    expect(filename.length).toBeGreaterThan(0)
+    const url = await s.readReceiptUrl(filename)
+    expect(url).not.toBeNull()
+    expect(typeof url).toBe('string')
+  })
+
+  it('returns null for nonexistent receipt', async () => {
+    const s = createMemoryStorage()
+    const url = await s.readReceiptUrl('does-not-exist.jpg')
+    expect(url).toBeNull()
+  })
 })

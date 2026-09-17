@@ -1,7 +1,12 @@
-import { emptyAppData, type AppData, type StorageAdapter } from './storage'
+import { emptyAppData, type AppData, type StorageAdapter, DEFAULT_SETTINGS } from './storage'
 
 export function createMemoryStorage(seed?: Partial<AppData>): StorageAdapter {
-  let data: AppData = { ...emptyAppData(), ...seed }
+  let data: AppData = {
+    ...emptyAppData(),
+    ...seed,
+    settings: { ...DEFAULT_SETTINGS, ...(seed?.settings ?? {}) },
+    learnedMerchants: { ...(seed?.learnedMerchants ?? {}) },
+  }
   const receipts: Record<string, string> = {}
   return {
     async load() { return structuredClone(data) },

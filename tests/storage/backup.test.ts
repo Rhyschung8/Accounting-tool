@@ -11,4 +11,7 @@ describe('shouldBackup', () => {
   it('does not back up within 7 days', () => {
     expect(shouldBackup('2026-09-15T00:00:00Z', new Date('2026-09-17T00:00:00Z'))).toBe(false)
   })
+  it('backs up at exact 7-day boundary', () => {
+    expect(shouldBackup('2026-09-10T00:00:00Z', new Date('2026-09-17T00:00:00Z'))).toBe(true)
+  })
 })
