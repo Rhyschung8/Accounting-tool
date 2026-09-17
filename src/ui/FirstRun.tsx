@@ -4,7 +4,6 @@ import { useStore } from '../state/useStore'
 import { parsePence } from '../domain/money'
 import { currentTaxYear } from '../domain/taxYear'
 import { pickFolder } from '../storage/fileSystemStorage'
-import { createFileSystemStorage } from '../storage/fileSystemStorage'
 
 type Screen = 'folder' | 'homeHours' | 'otherIncome'
 

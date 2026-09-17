@@ -23,8 +23,10 @@ export function Settings() {
 
   async function handleSaveHours() {
     const h = Number(hours)
-    await setSettings({ hoursPerWeekAtHome: h })
-    await regenerateHomeOffice(currentTaxYear())
+    if (h > 0 && !isNaN(h)) {
+      await setSettings({ hoursPerWeekAtHome: h })
+      await regenerateHomeOffice(currentTaxYear())
+    }
   }
 
   async function handleSaveOtherIncome() {
