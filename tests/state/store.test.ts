@@ -55,4 +55,21 @@ describe('store', () => {
     const autos = s.getState().entries.filter(e => e.type === 'home_office')
     expect(autos).toHaveLength(12)
   })
+  it('getState is defined before init() resolves', () => {
+    const store = createStore(createMemoryStorage())
+    const state = store.getState()
+    expect(state).toBeDefined()
+    expect(state.entries).toEqual([])
+  })
+  it('persists entries via adapter across store instances', async () => {
+    const adapter = createMemoryStorage()
+    const store1 = createStore(adapter)
+    await store1.init()
+    await store1.addEntry({ date: '2025-09-01', type: 'income', amountPence: 5000, description: 'Test income', category: 'income' })
+
+    const store2 = createStore(adapter)
+    await store2.init()
+    expect(store2.getState().entries).toHaveLength(1)
+    expect(store2.getState().entries[0].description).toBe('Test income')
+  })
 })

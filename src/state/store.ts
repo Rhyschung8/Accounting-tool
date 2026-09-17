@@ -1,5 +1,6 @@
 // src/state/store.ts
 import type { StorageAdapter, AppData, Settings } from '../storage/storage'
+import { emptyAppData } from '../storage/storage'
 import { makeEntry, type Entry } from '../domain/entry'
 import { categorise } from '../domain/categoriser'
 import { generateHomeOfficeMonths } from '../domain/homeOffice'
@@ -9,7 +10,7 @@ import { taxYearOf } from '../domain/taxYear'
 type Listener = () => void
 
 export function createStore(adapter: StorageAdapter) {
-  let state: AppData
+  let state: AppData = emptyAppData()
   const listeners = new Set<Listener>()
   const notify = () => listeners.forEach(l => l())
   const persist = async () => { await adapter.save(state); notify() }
