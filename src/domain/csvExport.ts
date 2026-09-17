@@ -14,10 +14,10 @@ export function toCsv(entries: Entry[], taxYear: string): string {
       e.date,
       e.type,
       esc(e.description),
-      e.category,
+      esc(e.category),
       (e.amountPence / 100).toFixed(2),
       e.claimable ? 'yes' : 'no',
-      e.receiptFile ?? '',
+      esc(e.receiptFile ?? ''),
     ].join(','))
   return [header, ...rows].join('\n') + '\n'
 }

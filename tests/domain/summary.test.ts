@@ -21,4 +21,9 @@ describe('summarise', () => {
     const withDeleted = [...entries, makeEntry({ date: '2025-09-05', type: 'income', amountPence: 5000, description: 'x', category: 'income', deletedAt: '2025-09-06T00:00:00Z' })]
     expect(summarise(withDeleted, '2025/26', 0).incomePence).toBe(3000)
   })
+  it('includes claimable home_office entries in expenses', () => {
+    const withHomeOffice = [...entries, makeEntry({ date: '2025-09-05', type: 'home_office', amountPence: 1000, description: 'home office', category: 'admin', claimable: true })]
+    const s = summarise(withHomeOffice, '2025/26', 0)
+    expect(s.expensesPence).toBe(3270) // 2270 + 1000
+  })
 })

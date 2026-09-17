@@ -30,4 +30,14 @@ describe('estimate', () => {
     expect(e.isLoss).toBe(true)
     expect(e.totalPence).toBe(0)
   })
+  it('crosses into higher-rate band above basic rate limit', () => {
+    const profitPence = 6_000_000 // £60,000
+    const basicPart = r.basicRateLimitPence - r.personalAllowancePence
+    const higherPart = profitPence - r.basicRateLimitPence
+    const expectedIncomeTax = Math.round(
+      basicPart * r.basicRatePct / 100 + higherPart * r.higherRatePct / 100,
+    )
+    const e = estimate(profitPence, 0, r)
+    expect(e.incomeTaxPence).toBe(expectedIncomeTax)
+  })
 })

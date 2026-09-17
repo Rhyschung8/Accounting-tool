@@ -22,4 +22,10 @@ describe('toCsv', () => {
     ], '2025/26')
     expect(csv.trim().split('\n')).toHaveLength(1) // header only
   })
+  it('quotes receiptFile containing commas', () => {
+    const csv = toCsv([
+      makeEntry({ date: '2025-09-01', type: 'expense', amountPence: 1000, description: 'office', category: 'equipment', receiptFile: 'receipt,2025.jpg' }),
+    ], '2025/26')
+    expect(csv).toContain('"receipt,2025.jpg"')
+  })
 })
