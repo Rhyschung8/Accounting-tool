@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { monthlyBandPence, generateHomeOfficeMonths } from '../../src/domain/homeOffice'
 import { getRates } from '../../src/config/taxYears'
+import { taxYearOf } from '../../src/domain/taxYear'
 
 const r = getRates('2025/26')
 
@@ -21,5 +22,12 @@ describe('generateHomeOfficeMonths', () => {
   })
   it('creates none when hours are below the lowest band', () => {
     expect(generateHomeOfficeMonths('2025/26', 5, r)).toHaveLength(0)
+  })
+  it('every generated entry has a date within the requested tax year', () => {
+    const taxYear = '2025/26'
+    const entries = generateHomeOfficeMonths(taxYear, 30, r)
+    for (const entry of entries) {
+      expect(taxYearOf(entry.date)).toBe(taxYear)
+    }
   })
 })

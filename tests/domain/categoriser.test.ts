@@ -24,4 +24,17 @@ describe('categorise', () => {
   it('learned merchant overrides keywords', () => {
     expect(categorise('HOBGOBLIN MUSIC', { 'hobgoblin music': 'equipment' }).category).toBe('equipment')
   })
+  it('does NOT flag fuel when bp is only a substring of another word', () => {
+    const result = categorise('Pubcrawl tickets', {})
+    expect(result).toMatchObject({ category: 'uncategorised', claimable: true })
+    expect(result.note).toBeUndefined()
+  })
+  it('DOES detect bp as a standalone fuel keyword', () => {
+    expect(categorise('BP GARAGE', {})).toEqual({ category: 'travel', claimable: false, note: 'fuel_excluded' })
+  })
+  it('does NOT categorise a description where "strings" appears only as part of another word', () => {
+    // "hamstrings" contains "strings" as a substring — old code would false-positive; word-boundary matching must not
+    const result = categorise('Hamstrings physio session', {})
+    expect(result.category).not.toBe('equipment')
+  })
 })

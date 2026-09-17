@@ -7,6 +7,14 @@ export interface CategoriseResult {
   note?: 'fuel_excluded'
 }
 
+function matchesKeyword(text: string, keyword: string): boolean {
+  const k = keyword.toLowerCase()
+  if (/[㄰-㆏가-힣]/.test(k)) return text.includes(k) // Korean → substring
+  // English → word-boundary match, escaping regex chars; handles multi-word phrases like "sheet music"
+  const escaped = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return new RegExp(`\\b${escaped}\\b`, 'i').test(text)
+}
+
 export function categorise(
   description: string,
   learnedMerchants: Record<string, string>,
@@ -19,12 +27,12 @@ export function categorise(
     }
   }
 
-  if (FUEL_KEYWORDS.some(k => text.includes(k))) {
+  if (FUEL_KEYWORDS.some(k => matchesKeyword(text, k))) {
     return { category: 'travel', claimable: false, note: 'fuel_excluded' }
   }
 
   for (const cat of CATEGORIES) {
-    const hit = [...cat.keywordsEn, ...cat.keywordsKo].some(k => text.includes(k.toLowerCase()))
+    const hit = [...cat.keywordsEn, ...cat.keywordsKo].some(k => matchesKeyword(text, k))
     if (hit) return { category: cat.key, claimable: true }
   }
 
