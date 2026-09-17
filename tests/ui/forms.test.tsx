@@ -92,6 +92,12 @@ describe('BoughtSomethingForm', () => {
     expect(screen.getByText(/Only teaching/i)).toBeInTheDocument()
   })
 
+  it('shows the mileage-instead note for a fuel purchase (C1)', async () => {
+    await mount(() => <BoughtSomethingForm onDone={() => {}} />)
+    fireEvent.change(screen.getByLabelText(/what/i), { target: { value: 'Shell petrol' } })
+    expect(screen.getByText(/claiming mileage instead/i)).toBeInTheDocument()
+  })
+
   it('learns merchant when category is overridden', async () => {
     const store = await mount(() => <BoughtSomethingForm onDone={() => {}} />)
     fireEvent.change(screen.getByLabelText(/amount/i), { target: { value: '20' } })
@@ -124,6 +130,31 @@ describe('DroveToLessonForm', () => {
       expect(journeys).toHaveLength(1)
       expect((journeys[0].details as { destination: string }).destination).toBe('Twickenham')
     })
+  })
+
+  it('costs a new journey using the cumulative 10k split (I3)', async () => {
+    const storage = createMemoryStorage()
+    const store = createStore(storage)
+    await store.init()
+    const rates = getRates(currentTaxYear())
+    const already = 9_990 // year-to-date miles, just under the 10,000 threshold
+    const { start } = { start: `${currentTaxYear().slice(0, 4)}-06-01` }
+    await store.addEntry({
+      date: start,
+      type: 'journey',
+      amountPence: mileagePence(already, rates),
+      description: 'Prior driving / 이전 운전',
+      category: 'travel',
+      details: { destination: 'Faraway', miles: already, ratePence: rates.mileageHigherPencePerMile },
+    })
+    render(<StoreProvider store={store}><DroveToLessonForm onDone={() => {}} /></StoreProvider>)
+    fireEvent.click(screen.getByText(/somewhere new/i))
+    fireEvent.change(screen.getByLabelText(/miles/i), { target: { value: '20' } })
+    // 20 more miles: 10 at higher rate (to reach 10k), 10 at lower rate.
+    const expected = formatPounds(mileagePence(20, rates, already))
+    expect(screen.getByText(new RegExp(expected.replace('.', '\\.')))).toBeInTheDocument()
+    // Sanity: the split really is lower than a naive full-higher-rate cost.
+    expect(mileagePence(20, rates, already)).toBeLessThan(mileagePence(20, rates, 0))
   })
 
   it('shows saved-journey buttons from prior journey entries', async () => {

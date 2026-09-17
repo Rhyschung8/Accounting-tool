@@ -24,6 +24,11 @@ describe('categorise', () => {
   it('learned merchant overrides keywords', () => {
     expect(categorise('HOBGOBLIN MUSIC', { 'hobgoblin music': 'equipment' }).category).toBe('equipment')
   })
+  it('fuel beats a colliding learned merchant (N1)', () => {
+    // A learned mapping that would otherwise make it claimable must not override fuel detection.
+    const result = categorise('Shell petrol', { 'shell': 'equipment' })
+    expect(result).toEqual({ category: 'travel', claimable: false, note: 'fuel_excluded' })
+  })
   it('does NOT flag fuel when bp is only a substring of another word', () => {
     const result = categorise('Pubcrawl tickets', {})
     expect(result).toMatchObject({ category: 'uncategorised', claimable: true })

@@ -21,14 +21,17 @@ export function categorise(
 ): CategoriseResult {
   const text = description.toLowerCase()
 
+  // N1: fuel is checked BEFORE learned merchants so a learned mapping can never
+  // make a clear fuel purchase claimable. Learned merchants still take precedence
+  // over ordinary keyword matching below.
+  if (FUEL_KEYWORDS.some(k => matchesKeyword(text, k))) {
+    return { category: 'travel', claimable: false, note: 'fuel_excluded' }
+  }
+
   for (const merchant of Object.keys(learnedMerchants)) {
     if (text.includes(merchant.toLowerCase())) {
       return { category: learnedMerchants[merchant], claimable: true }
     }
-  }
-
-  if (FUEL_KEYWORDS.some(k => matchesKeyword(text, k))) {
-    return { category: 'travel', claimable: false, note: 'fuel_excluded' }
   }
 
   for (const cat of CATEGORIES) {

@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { useStore } from '../../state/useStore'
 import { mileagePence } from '../../domain/mileage'
 import { getRates } from '../../config/taxYears'
-import { currentTaxYear } from '../../domain/taxYear'
+import { currentTaxYear, taxYearOf } from '../../domain/taxYear'
 import { MoneyDisplay } from '../components/MoneyDisplay'
 
 export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
@@ -24,14 +24,21 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
     return [...seen.entries()]
   }, [state.entries])
 
+  // I3: miles already driven in the current tax year so the 10k split is cumulative.
+  const milesAlreadyThisYear = useMemo(() => {
+    return state.entries
+      .filter(e => e.type === 'journey' && !e.deletedAt && taxYearOf(e.date) === currentTaxYear())
+      .reduce((sum, e) => sum + (((e.details ?? {}) as { miles?: number }).miles ?? 0), 0)
+  }, [state.entries])
+
   const milesNum = Number(miles) || 0
-  const pence = mileagePence(milesNum, rates)
+  const pence = mileagePence(milesNum, rates, milesAlreadyThisYear)
 
   async function add(dest: string, m: number) {
     await addEntry({
       date: new Date().toISOString().slice(0, 10),
       type: 'journey',
-      amountPence: mileagePence(m, rates),
+      amountPence: mileagePence(m, rates, milesAlreadyThisYear),
       description: `Drove to ${dest} / ${dest} 레슨`,
       category: 'travel',
       details: { destination: dest, miles: m, ratePence: rates.mileageHigherPencePerMile },

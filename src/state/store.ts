@@ -26,12 +26,19 @@ export function createStore(adapter: StorageAdapter) {
     ) {
       let category = partial.category
       let claimable = partial.claimable ?? true
-      if (partial.type === 'expense' && !category) {
+      let details = partial.details
+      if (partial.type === 'expense') {
+        // C1: always run categorise so a fuel purchase can never be saved claimable,
+        // even when the caller supplied a category (e.g. BoughtSomethingForm always does).
         const r = categorise(partial.description, state.learnedMerchants)
-        category = r.category
-        claimable = r.claimable
+        const fuelExcluded = r.note === 'fuel_excluded'
+        category = partial.category ?? r.category
+        claimable = fuelExcluded ? false : (partial.claimable ?? true)
+        if (fuelExcluded) {
+          details = { ...(details ?? {}), fuelExcluded: true }
+        }
       }
-      const entry = makeEntry({ ...partial, category: category ?? 'uncategorised', claimable })
+      const entry = makeEntry({ ...partial, category: category ?? 'uncategorised', claimable, details })
       state.entries.push(entry)
       await persist()
       return entry

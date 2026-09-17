@@ -19,6 +19,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState('uncategorised')
   const [suggestedCategory, setSuggestedCategory] = useState('uncategorised')
+  const [isFuel, setIsFuel] = useState(false)
   const [businessPercent, setBusinessPercent] = useState(100)
   const [amountError, setAmountError] = useState('')
 
@@ -32,9 +33,11 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
       const result = categorise(description, state.learnedMerchants)
       setSuggestedCategory(result.category)
       setCategory(result.category)
+      setIsFuel(result.note === 'fuel_excluded')
     } else {
       setSuggestedCategory('uncategorised')
       setCategory('uncategorised')
+      setIsFuel(false)
     }
   }, [description, state.learnedMerchants])
 
@@ -94,6 +97,11 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
         />
       </label>
       {amountError && <p role="alert">{amountError}</p>}
+      {isFuel && (
+        <p className="fuel-note">
+          마일리지로 청구되므로 따로 계산되지 않아요 / You're claiming mileage instead, so this one isn't counted separately.
+        </p>
+      )}
       <label>
         무엇 / What
         <input

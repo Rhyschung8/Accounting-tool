@@ -25,6 +25,11 @@ describe('store', () => {
     await s.addEntry({ date: '2025-09-02', type: 'expense', amountPence: 5000, description: 'Shell garage' })
     expect(s.getState().entries[0].claimable).toBe(false)
   })
+  it('forces fuel not claimable even when a category is supplied (C1)', async () => {
+    const s = await freshStore()
+    await s.addEntry({ type: 'expense', category: 'travel', description: 'Shell petrol', amountPence: 4000, date: '2025-09-02' })
+    expect(s.getState().entries[0].claimable).toBe(false)
+  })
   it('soft-deletes and restores', async () => {
     const s = await freshStore()
     await s.addEntry({ date: '2025-09-01', type: 'income', amountPence: 3000, description: 'Emma', category: 'income' })

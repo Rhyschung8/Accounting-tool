@@ -59,10 +59,14 @@ export function EntryList({ taxYear }: { taxYear: string }) {
                   >
                     <span className="entry-date">{entry.date}</span>
                     <span className="entry-description">
-                      {isAuto ? '자동 / auto' : entry.description}
+                      {entry.description}
+                      {isAuto && <span className="entry-auto"> 자동 / auto</span>}
                     </span>
                     <span className="entry-category">{getCategoryLabel(entry.category)}</span>
                     <MoneyDisplay pence={entry.amountPence} />
+                    {entry.claimable === false && (
+                      <span className="entry-not-claimed">미청구 / not claimed</span>
+                    )}
                     {entry.receiptFile && <span className="entry-receipt" aria-label="receipt">📎</span>}
                   </button>
                 </li>

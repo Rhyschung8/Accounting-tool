@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useStore } from '../state/useStore'
 import { parsePence } from '../domain/money'
-import { currentTaxYear } from '../domain/taxYear'
+import { TAX_YEARS } from '../config/taxYears'
 import { pickFolder } from '../storage/fileSystemStorage'
 
 type Screen = 'folder' | 'homeHours' | 'otherIncome'
@@ -37,9 +37,12 @@ export function FirstRun({
 
   async function handleSaveHours() {
     const h = Number(hours)
-    if (h > 0) {
+    if (h > 0 && !isNaN(h)) {
       await setSettings({ hoursPerWeekAtHome: h })
-      await regenerateHomeOffice(currentTaxYear())
+      // I2: regenerate home-office for every configured tax year (spec §12), not just the current one.
+      for (const ty of Object.keys(TAX_YEARS)) {
+        await regenerateHomeOffice(ty)
+      }
     }
     setScreen('otherIncome')
   }

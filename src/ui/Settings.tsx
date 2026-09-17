@@ -2,8 +2,16 @@
 import { useState } from 'react'
 import { useStore } from '../state/useStore'
 import { parsePence } from '../domain/money'
-import { currentTaxYear } from '../domain/taxYear'
+import { TAX_YEARS } from '../config/taxYears'
+import { loadDirHandle } from '../storage/handleStore'
+import { writeBackup } from '../storage/backup'
 import type { Settings as SettingsType } from '../storage/storage'
+
+const TEXT_SIZE_OPTIONS: { value: SettingsType['textSize']; label: string }[] = [
+  { value: 'normal', label: '보통 / Normal' },
+  { value: 'large', label: '크게 / Large' },
+  { value: 'xlarge', label: '아주 크게 / Very large' },
+]
 
 export function Settings() {
   const { state, setSettings, regenerateHomeOffice } = useStore()
@@ -20,12 +28,16 @@ export function Settings() {
   const [textSize, setTextSize] = useState<SettingsType['textSize']>(
     state.settings.textSize,
   )
+  const [backupDone, setBackupDone] = useState(false)
 
   async function handleSaveHours() {
     const h = Number(hours)
     if (h > 0 && !isNaN(h)) {
       await setSettings({ hoursPerWeekAtHome: h })
-      await regenerateHomeOffice(currentTaxYear())
+      // I2: regenerate home-office for every configured tax year (spec §12), not just the current one.
+      for (const ty of Object.keys(TAX_YEARS)) {
+        await regenerateHomeOffice(ty)
+      }
     }
   }
 
@@ -49,13 +61,18 @@ export function Settings() {
     await setSettings({ textSize: size })
   }
 
-  function handleBackup() {
-    if (typeof window.showDirectoryPicker === 'undefined') {
-      // File System Access API not available (e.g. jsdom in tests)
-      return
+  async function handleBackup() {
+    // I4: guard keeps jsdom (tests) safe — the button is disabled when the API is missing.
+    if (typeof window.showDirectoryPicker !== 'function') return
+    const handle = await loadDirHandle()
+    if (!handle) return
+    const currentAppData = {
+      entries: state.entries,
+      settings: state.settings,
+      learnedMerchants: state.learnedMerchants,
     }
-    // In a real browser, trigger backup flow via pickFolder
-    // This is intentionally a no-op stub here; full backup uses fileSystemStorage
+    await writeBackup(handle, JSON.stringify(currentAppData))
+    setBackupDone(true)
   }
 
   return (
@@ -66,16 +83,16 @@ export function Settings() {
       <section>
         <fieldset>
           <legend>글자 크기 / Text size</legend>
-          {(['normal', 'large', 'xlarge'] as const).map(size => (
-            <label key={size}>
+          {TEXT_SIZE_OPTIONS.map(({ value, label }) => (
+            <label key={value}>
               <input
                 type="radio"
                 name="textSize"
-                value={size}
-                checked={textSize === size}
-                onChange={() => handleTextSizeChange(size)}
+                value={value}
+                checked={textSize === value}
+                onChange={() => handleTextSizeChange(value)}
               />
-              {size}
+              {label}
             </label>
           ))}
         </fieldset>
@@ -128,10 +145,11 @@ export function Settings() {
       <section>
         <button
           onClick={handleBackup}
-          disabled={typeof window.showDirectoryPicker === 'undefined'}
+          disabled={typeof window.showDirectoryPicker !== 'function'}
         >
           내 기록 백업 / Back up my records
         </button>
+        {backupDone && <p role="status">백업했어요 / Backed up</p>}
       </section>
     </div>
   )
