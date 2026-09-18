@@ -96,7 +96,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
           placeholder="e.g. 12.50"
         />
       </label>
-      {amountError && <p role="alert">{amountError}</p>}
+      {amountError && <p role="alert" className="form-error">{amountError}</p>}
       {isFuel && (
         <p className="fuel-note">
           마일리지로 청구되므로 따로 계산되지 않아요 / You're claiming mileage instead, so this one isn't counted separately.
@@ -142,7 +142,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
           ))}
         </fieldset>
       )}
-      <button onClick={handleSave}>저장 / Save</button>
+      <button className="btn-primary" onClick={handleSave}>저장 / Save</button>
     </div>
   )
 }

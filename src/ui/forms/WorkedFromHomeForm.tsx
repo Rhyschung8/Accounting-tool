@@ -26,7 +26,7 @@ export function WorkedFromHomeForm({ onDone }: { onDone: () => void }) {
           onChange={e => setHours(e.target.value)}
         />
       </label>
-      <button onClick={handleSave}>저장 / Save</button>
+      <button className="btn-primary" onClick={handleSave}>저장 / Save</button>
     </div>
   )
 }
