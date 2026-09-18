@@ -1521,6 +1521,43 @@ button[class=""] ,
   }
 }
 
+/* ─── SVG icon helpers ──────────────────────────────────── */
+/* Ensure all decorative icons render as block so they don't
+   introduce extra inline-baseline whitespace.               */
+.sidebar__ico svg,
+.stat-card__chip svg,
+.big-button__icon svg,
+.nudge-tip-icon {
+  display: block;
+}
+
+/* Sidebar icons inherit the item colour; active item already
+   sets color: var(--colour-accent-dark) via .is-active.      */
+.sidebar__ico {
+  color: var(--colour-muted);
+}
+
+.sidebar__item.is-active .sidebar__ico {
+  color: var(--colour-accent-dark);
+}
+
+/* Stat-card chips — emerald on the pale-green background */
+.stat-card__chip {
+  color: var(--colour-accent-dark);
+}
+
+/* Big-button icon colour */
+.big-button__icon {
+  color: var(--colour-accent-dark);
+}
+
+/* Nudge tip icon — terracotta to match the card's warning tone */
+.nudge-tip-icon {
+  color: var(--colour-warning);
+  display: inline-block;
+  vertical-align: middle;
+}
+
 /* ─── Print styles ──────────────────────────────────────── */
 @media print {
   :root {

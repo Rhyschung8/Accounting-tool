@@ -3,6 +3,7 @@ import { useStore } from '../state/useStore'
 import { summarise } from '../domain/summary'
 import { MoneyDisplay } from './components/MoneyDisplay'
 import { strings } from '../i18n/strings'
+import { IconMoneyIn, IconMoneyOut, IconWhatsLeft } from './components/icons'
 
 export function SummaryPanel({ taxYear }: { taxYear: string }) {
   const { state } = useStore()
@@ -18,7 +19,7 @@ export function SummaryPanel({ taxYear }: { taxYear: string }) {
               <span className="lang-ko">{strings.moneyIn.ko}</span>
               <span className="lang-en">{strings.moneyIn.en}</span>
             </span>
-            <span className="stat-card__chip">💷</span>
+            <span className="stat-card__chip"><IconMoneyIn size={22} /></span>
           </div>
           <div className="stat-card__num">
             <MoneyDisplay pence={s.incomePence} />
@@ -32,7 +33,7 @@ export function SummaryPanel({ taxYear }: { taxYear: string }) {
               <span className="lang-ko">{strings.moneyOut.ko}</span>
               <span className="lang-en">{strings.moneyOut.en}</span>
             </span>
-            <span className="stat-card__chip">🧾</span>
+            <span className="stat-card__chip"><IconMoneyOut size={22} /></span>
           </div>
           <div className="stat-card__num">
             <MoneyDisplay pence={s.expensesPence} />
@@ -46,7 +47,7 @@ export function SummaryPanel({ taxYear }: { taxYear: string }) {
               <span className="lang-ko">{strings.whatsLeft.ko}</span>
               <span className="lang-en">{strings.whatsLeft.en}</span>
             </span>
-            <span className="stat-card__chip">✅</span>
+            <span className="stat-card__chip"><IconWhatsLeft size={22} /></span>
           </div>
           <div className="stat-card__num">
             {s.estimate.isLoss ? (

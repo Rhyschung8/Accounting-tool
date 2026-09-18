@@ -1,10 +1,12 @@
+import type { ReactNode } from 'react'
+
 export function BigButton({
   icon,
   labelKo,
   labelEn,
   onClick,
 }: {
-  icon: string
+  icon: ReactNode
   labelKo: string
   labelEn: string
   onClick: () => void

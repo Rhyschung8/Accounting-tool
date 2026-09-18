@@ -1,5 +1,6 @@
 // src/ui/HomeScreen.tsx
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { useStore } from '../state/useStore'
 import { currentTaxYear, formatTaxYear } from '../domain/taxYear'
 import { toCsv } from '../domain/csvExport'
@@ -17,28 +18,66 @@ import { WorkedFromHomeForm } from './forms/WorkedFromHomeForm'
 import { NudgesPanel } from './NudgesPanel'
 import { YearEndScreen } from './YearEndScreen'
 import { GoodToKnow } from './GoodToKnow'
+import {
+  IconPiano,
+  IconHomeNav,
+  IconEntries,
+  IconYearEnd,
+  IconGoodToKnow,
+  IconTrash,
+  IconSettings,
+  IconPaid,
+  IconBought,
+  IconDrove,
+  IconHome,
+} from './components/icons'
 
 type ActiveForm = 'gotPaid' | 'boughtSomething' | 'drove' | 'workedFromHome' | null
 type ActiveView = 'home' | 'entries' | 'deleted' | 'settings' | 'yearEnd' | 'goodToKnow'
 
 interface NavItem {
   view: ActiveView
-  ico: string
+  icon: ReactNode
   ko: string
   en: string
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { view: 'home',       ico: '🏠', ko: '홈',         en: 'Home' },
-  { view: 'entries',    ico: '📋', ko: '전체 내역',  en: 'All entries' },
-  { view: 'yearEnd',    ico: '📅', ko: '연말 정산',  en: 'Year-end & filing' },
-  { view: 'goodToKnow', ico: '📖', ko: '알아두기',   en: 'Good to know' },
+  { view: 'home',       icon: <IconHomeNav size={22} />,     ko: '홈',         en: 'Home' },
+  { view: 'entries',    icon: <IconEntries size={22} />,     ko: '전체 내역',  en: 'All entries' },
+  { view: 'yearEnd',    icon: <IconYearEnd size={22} />,     ko: '연말 정산',  en: 'Year-end & filing' },
+  { view: 'goodToKnow', icon: <IconGoodToKnow size={22} />,  ko: '알아두기',   en: 'Good to know' },
 ]
 
 const FOOT_ITEMS: NavItem[] = [
-  { view: 'deleted',  ico: '🗑️', ko: '최근 삭제', en: 'Recently deleted' },
-  { view: 'settings', ico: '⚙️', ko: '설정',      en: 'Settings' },
+  { view: 'deleted',  icon: <IconTrash size={22} />,    ko: '최근 삭제', en: 'Recently deleted' },
+  { view: 'settings', icon: <IconSettings size={22} />, ko: '설정',      en: 'Settings' },
 ]
+
+// ─── SidebarButton hoisted to module scope ────────────────────────────────────
+interface SidebarButtonProps {
+  item: NavItem
+  activeView: ActiveView
+  setActiveView: (v: ActiveView) => void
+}
+
+function SidebarButton({ item, activeView, setActiveView }: SidebarButtonProps) {
+  const isActive = activeView === item.view
+  return (
+    <button
+      className={`sidebar__item${isActive ? ' is-active' : ''}`}
+      aria-current={isActive ? 'page' : undefined}
+      onClick={() => setActiveView(item.view)}
+    >
+      <span className="sidebar__ico">{item.icon}</span>
+      <span>
+        <span className="lang-ko">{item.ko}</span>
+        <span className="lang-en">{item.en}</span>
+      </span>
+    </button>
+  )
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export function HomeScreen() {
   const { state } = useStore()
@@ -61,23 +100,6 @@ export function HomeScreen() {
 
   function closeForm() {
     setActiveForm(null)
-  }
-
-  function SidebarButton({ item }: { item: NavItem }) {
-    const isActive = activeView === item.view
-    return (
-      <button
-        className={`sidebar__item${isActive ? ' is-active' : ''}`}
-        aria-current={isActive ? 'page' : undefined}
-        onClick={() => setActiveView(item.view)}
-      >
-        <span className="sidebar__ico">{item.ico}</span>
-        <span>
-          <span className="lang-ko">{item.ko}</span>
-          <span className="lang-en">{item.en}</span>
-        </span>
-      </button>
-    )
   }
 
   function renderMainContent() {
@@ -131,25 +153,25 @@ export function HomeScreen() {
 
         <div className="action-buttons">
           <BigButton
-            icon="💷"
+            icon={<IconPaid size={30} />}
             labelKo={strings.gotPaid.ko}
             labelEn={strings.gotPaid.en}
             onClick={() => setActiveForm('gotPaid')}
           />
           <BigButton
-            icon="🛒"
+            icon={<IconBought size={30} />}
             labelKo={strings.boughtSomething.ko}
             labelEn={strings.boughtSomething.en}
             onClick={() => setActiveForm('boughtSomething')}
           />
           <BigButton
-            icon="🚗"
+            icon={<IconDrove size={30} />}
             labelKo={strings.drove.ko}
             labelEn={strings.drove.en}
             onClick={() => setActiveForm('drove')}
           />
           <BigButton
-            icon="🏠"
+            icon={<IconHome size={30} />}
             labelKo={strings.workedFromHome.ko}
             labelEn={strings.workedFromHome.en}
             onClick={() => setActiveForm('workedFromHome')}
@@ -171,18 +193,20 @@ export function HomeScreen() {
     <div className="layout">
       <aside className="sidebar">
         <div className="sidebar__brand">
-          <span>🎹</span>
+          <IconPiano size={24} />
           <span>피아노 회계</span>
         </div>
-        <span className="sidebar__label">메뉴 / Menu</span>
-        {NAV_ITEMS.map(item => (
-          <SidebarButton key={item.view} item={item} />
-        ))}
-        <div className="sidebar__foot">
-          {FOOT_ITEMS.map(item => (
-            <SidebarButton key={item.view} item={item} />
+        <nav aria-label="메뉴 / Menu">
+          <span className="sidebar__label">메뉴 / Menu</span>
+          {NAV_ITEMS.map(item => (
+            <SidebarButton key={item.view} item={item} activeView={activeView} setActiveView={setActiveView} />
           ))}
-        </div>
+          <div className="sidebar__foot">
+            {FOOT_ITEMS.map(item => (
+              <SidebarButton key={item.view} item={item} activeView={activeView} setActiveView={setActiveView} />
+            ))}
+          </div>
+        </nav>
       </aside>
 
       <main className="main">
