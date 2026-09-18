@@ -14,14 +14,14 @@
 /* ─── Design tokens ─────────────────────────────────────── */
 :root {
   /* Palette */
-  --colour-bg:           #FAF7F2;   /* warm cream */
+  --colour-bg:           #EFF5F1;   /* pale mint */
   --colour-surface:      #FFFFFF;   /* card surface */
-  --colour-fg:           #2E2A26;   /* warm charcoal */
-  --colour-muted:        #6B6459;   /* secondary text */
-  --colour-accent:       #4E7C63;   /* sage-emerald — buttons / links */
-  --colour-accent-dark:  #3B6350;   /* darker sage-emerald — text-on-accent / link text / focus */
-  --colour-border:       #E7E0D6;   /* soft border */
-  --colour-warning:      #B5643C;   /* soft terracotta — nudges / warnings ONLY */
+  --colour-fg:           #1F2A24;   /* cool charcoal-green */
+  --colour-muted:        #586A60;   /* secondary text */
+  --colour-accent:       #128A5A;   /* emerald — buttons / links */
+  --colour-accent-dark:  #0B6A45;   /* darker emerald — text-on-accent / link text / focus */
+  --colour-border:       #D8E6DE;   /* soft mint border */
+  --colour-warning:      #C2683B;   /* terracotta — nudges / warnings ONLY */
 
   /* Shadow — warm, tied to charcoal not pure black */
   --shadow-card:         0 1px 2px rgba(46,42,38,.04), 0 4px 16px rgba(46,42,38,.06);
@@ -372,7 +372,7 @@ a:focus-visible {
 }
 
 .modal-close:hover {
-  background: #EDE7DF;
+  background: #E6EDE8;
 }
 
 .modal-close:focus-visible {
@@ -712,7 +712,7 @@ button[class=""] ,
 }
 
 .btn-secondary:hover {
-  background: #F3EFE9;
+  background: #ECF3EF;
 }
 
 .btn-secondary:focus-visible {
@@ -884,7 +884,7 @@ button[class=""] ,
 }
 
 .first-run-buttons button:last-child:hover {
-  background: #F3EFE9;
+  background: #ECF3EF;
 }
 
 .first-run-buttons button:focus-visible {
@@ -1211,7 +1211,7 @@ button[class=""] ,
 }
 
 .recently-deleted button:hover {
-  background: #F3EFE9;
+  background: #ECF3EF;
 }
 
 .recently-deleted button:focus-visible {
@@ -1225,7 +1225,7 @@ button[class=""] ,
   color: var(--colour-muted);
   line-height: 1.5;
   padding: 0.5rem 0.75rem;
-  background: #F3EFE9;
+  background: #ECF3EF;
   border-radius: var(--radius-input);
 }
 
