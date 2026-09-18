@@ -103,7 +103,7 @@ html {
   align-items: center;
   padding: 2px 8px;
   border-radius: 99px;
-  font-size: var(--fs-caption);
+  font-size: var(--fs-sub);
   font-weight: 500;
   white-space: nowrap;
   line-height: 1.4;
@@ -116,7 +116,7 @@ html {
 
 .pill--warn {
   background: #FDF3EE;
-  color: var(--colour-warning);
+  color: #9A4E2C;
 }
 
 .pill--muted {
