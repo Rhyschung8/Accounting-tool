@@ -122,26 +122,38 @@ export function HomeScreen() {
       {/* Contextual nudges */}
       <NudgesPanel taxYear={currentTaxYear()} />
 
+      {/* M4: empty-state welcome hint */}
+      {state.entries.filter(e => !e.deletedAt).length === 0 && (
+        <div className="welcome-hint">
+          <span className="lang-ko">아직 기록이 없어요. 아래에서 시작해 보세요</span>
+          <span className="lang-en">No records yet — tap a button below to start.</span>
+        </div>
+      )}
+
       {/* Four action BigButtons */}
       <div className="action-buttons">
         <BigButton
           icon="💷"
-          label={`${strings.gotPaid.ko} / ${strings.gotPaid.en}`}
+          labelKo={strings.gotPaid.ko}
+          labelEn={strings.gotPaid.en}
           onClick={() => setActiveForm('gotPaid')}
         />
         <BigButton
           icon="🛒"
-          label={`${strings.boughtSomething.ko} / ${strings.boughtSomething.en}`}
+          labelKo={strings.boughtSomething.ko}
+          labelEn={strings.boughtSomething.en}
           onClick={() => setActiveForm('boughtSomething')}
         />
         <BigButton
           icon="🚗"
-          label={`${strings.drove.ko} / ${strings.drove.en}`}
+          labelKo={strings.drove.ko}
+          labelEn={strings.drove.en}
           onClick={() => setActiveForm('drove')}
         />
         <BigButton
           icon="🏠"
-          label={`${strings.workedFromHome.ko} / ${strings.workedFromHome.en}`}
+          labelKo={strings.workedFromHome.ko}
+          labelEn={strings.workedFromHome.en}
           onClick={() => setActiveForm('workedFromHome')}
         />
       </div>

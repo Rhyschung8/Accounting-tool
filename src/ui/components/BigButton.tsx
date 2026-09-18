@@ -1,8 +1,21 @@
-export function BigButton({ icon, label, onClick }: { icon: string; label: string; onClick: () => void }) {
+export function BigButton({
+  icon,
+  labelKo,
+  labelEn,
+  onClick,
+}: {
+  icon: string
+  labelKo: string
+  labelEn: string
+  onClick: () => void
+}) {
   return (
     <button className="big-button" onClick={onClick}>
       <span className="big-button__icon" aria-hidden>{icon}</span>
-      <span className="big-button__label">{label}</span>
+      <span className="big-button__label">
+        <span className="lang-ko">{labelKo}</span>
+        <span className="lang-en">{labelEn}</span>
+      </span>
     </button>
   )
 }
