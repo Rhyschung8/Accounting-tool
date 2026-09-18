@@ -55,7 +55,6 @@ export function EntryList({ taxYear }: { taxYear: string }) {
                   <button
                     className="entry-row"
                     onClick={() => setEditingEntry(entry)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%', display: 'flex', gap: '0.5rem' }}
                   >
                     <span className="entry-date">{entry.date}</span>
                     <span className="entry-description">

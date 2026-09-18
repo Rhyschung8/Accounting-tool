@@ -67,20 +67,22 @@ export function FirstRun({
 
   if (screen === 'folder') {
     return (
-      <div>
+      <div className="first-run">
         <h2>시작하기 / Getting started</h2>
         <p>
           저장 폴더 선택 / Choose a folder where your records will be saved
         </p>
-        <button onClick={handleFolderPick}>폴더 선택 / Pick a folder</button>
-        <button onClick={handleSkipFolder}>건너뛰기 / Skip</button>
+        <div className="first-run-buttons">
+          <button onClick={handleFolderPick}>폴더 선택 / Pick a folder</button>
+          <button onClick={handleSkipFolder}>건너뛰기 / Skip</button>
+        </div>
       </div>
     )
   }
 
   if (screen === 'homeHours') {
     return (
-      <div>
+      <div className="first-run">
         <h2>재택근무 / Working from home</h2>
         <label>
           주당 재택근무 시간 / Hours per week working from home
@@ -92,15 +94,17 @@ export function FirstRun({
             onChange={e => setHours(e.target.value)}
           />
         </label>
-        <button onClick={handleSaveHours}>다음 / Next</button>
-        <button onClick={handleSkipHours}>건너뛰기 / Skip</button>
+        <div className="first-run-buttons">
+          <button onClick={handleSaveHours}>다음 / Next</button>
+          <button onClick={handleSkipHours}>건너뛰기 / Skip</button>
+        </div>
       </div>
     )
   }
 
   // screen === 'otherIncome'
   return (
-    <div>
+    <div className="first-run">
       <h2>기타 수입 / Other income</h2>
       <p>
         피아노 교습 외 다른 수입이 있으신가요? / Do you have income from sources other than piano teaching?
@@ -114,8 +118,10 @@ export function FirstRun({
           onChange={e => setOtherIncome(e.target.value)}
         />
       </label>
-      <button onClick={handleComplete}>완료 / Done</button>
-      <button onClick={handleSkipOtherIncome}>건너뛰기 / Skip</button>
+      <div className="first-run-buttons">
+        <button onClick={handleComplete}>완료 / Done</button>
+        <button onClick={handleSkipOtherIncome}>건너뛰기 / Skip</button>
+      </div>
     </div>
   )
 }
