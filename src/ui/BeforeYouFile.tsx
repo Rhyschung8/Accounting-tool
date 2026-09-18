@@ -1,6 +1,6 @@
 // src/ui/BeforeYouFile.tsx
 import { useStore } from '../state/useStore'
-import { taxYearBounds, taxYearOf } from '../domain/taxYear'
+import { taxYearOf } from '../domain/taxYear'
 
 interface Props { taxYear: string }
 
