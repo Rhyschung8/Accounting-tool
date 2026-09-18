@@ -7,6 +7,7 @@ export interface Settings {
   largePurchaseThresholdPence: number
   folderChosen: boolean
   lastBackupAt?: string | null
+  spouseIsBasicRateTaxpayer: boolean
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -16,6 +17,7 @@ export const DEFAULT_SETTINGS: Settings = {
   largePurchaseThresholdPence: 50_000,
   folderChosen: false,
   lastBackupAt: null,
+  spouseIsBasicRateTaxpayer: false,
 }
 
 export interface AppData {
