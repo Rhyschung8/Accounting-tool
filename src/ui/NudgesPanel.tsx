@@ -12,7 +12,11 @@ export function NudgesPanel({ taxYear }: { taxYear: string }) {
     <section className="nudges" aria-label="놓치기 쉬운 것 / Easy to miss">
       {nudges.map(n => (
         <div key={n.id} className="nudge-card">
-          <h3>{n.titleKo} / {n.titleEn}</h3>
+          <h3>
+            💡{' '}
+            <span className="lang-ko">{n.titleKo}</span>
+            <span className="lang-en">{n.titleEn}</span>
+          </h3>
           <p>{n.bodyKo}</p>
           <p>{n.bodyEn}</p>
           <a href={n.govUkUrl} target="_blank" rel="noreferrer">자세히 / Learn more</a>
