@@ -22,7 +22,7 @@ export function GoodToKnow() {
       </section>
 
       <section className="glossary">
-        <h3>words you might see</h3>
+        <h3>용어 / Words you might see</h3>
         <dl>
           {GLOSSARY.map(entry => (
             <div key={entry.termEn}>
