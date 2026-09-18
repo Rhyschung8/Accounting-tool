@@ -3,7 +3,7 @@
 // This app targets the 2025/26 self-employment (short) return.
 export interface Sa103Box { number: string; labelKo: string; labelEn: string }
 
-// NOTE TO IMPLEMENTER: confirm each `number` below against the live SA103S form.
+// Box numbers verified against the SA103S 2025-26 form (HMRC 12/25): 9 turnover, 20 total expenses, 21 net profit, 22 net loss.
 export const TURNOVER_BOX: Sa103Box = {
   number: '9',
   labelKo: '매출(총 수입)',

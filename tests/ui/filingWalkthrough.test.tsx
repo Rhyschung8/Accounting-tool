@@ -15,6 +15,9 @@ describe('FilingWalkthrough', () => {
     expect(screen.getByText('£8,420.00')).toBeInTheDocument()
     expect(screen.getByText('£1,930.00')).toBeInTheDocument()
     expect(screen.getByText('£6,490.00')).toBeInTheDocument()
+    // Box number headings: component renders "칸 9" for turnover and "칸 20" for expenses
+    expect(screen.getByText(/칸 9|box 9/i)).toBeInTheDocument()
+    expect(screen.getByText(/칸 20|box 20/i)).toBeInTheDocument()
   })
   it('shows a calm loss message instead of a negative for a loss year', () => {
     const loss: FilingFigures = { ...profit, netPence: -50000, isLoss: true }
