@@ -17,8 +17,12 @@ describe('computeNudges', () => {
     expect(ids).toContain('must_file')
   })
   it('shows state_pension when profit is positive but below the small profits threshold', () => {
-    const ids = computeNudges(fig(600000, 100000), DEFAULT_SETTINGS, r).map(n => n.id) // profit 500000 < SPT
-    expect(ids).toContain('state_pension')
+    const nudges = computeNudges(fig(600000, 100000), DEFAULT_SETTINGS, r) // profit 500000 < SPT
+    expect(nudges.map(n => n.id)).toContain('state_pension')
+    const nudge = nudges.find(n => n.id === 'state_pension')!
+    // class2WeeklyPence for 2025/26 is 350 → £3.50
+    expect(nudge.bodyEn).toContain('£3.50')
+    expect(nudge.bodyKo).toContain('£3.50')
   })
   it('shows trading_allowance when expenses are under £1,000', () => {
     const ids = computeNudges(fig(500000, 50000), DEFAULT_SETTINGS, r).map(n => n.id)

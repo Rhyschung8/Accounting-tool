@@ -2,6 +2,7 @@
 import type { FilingFigures } from './filingFigures'
 import type { Settings } from '../storage/storage'
 import type { TaxYearRates } from '../config/taxYears'
+import { formatPounds } from './money'
 
 export type NudgeId = 'must_file' | 'state_pension' | 'trading_allowance' | 'marriage_allowance'
 export interface Nudge {
@@ -25,11 +26,12 @@ export function computeNudges(figures: FilingFigures, settings: Settings, rates:
   }
 
   if (figures.netPence > 0 && figures.netPence < rates.smallProfitsThresholdPence) {
+    const weeklyRate = formatPounds(rates.class2WeeklyPence)
     out.push({
       id: 'state_pension',
       titleKo: '국가연금 — 자발적 납부를 고려하세요', titleEn: 'State Pension — consider voluntary contributions',
-      bodyKo: '이익이 소액이익 기준보다 낮으면 국민보험 크레딧이 자동으로 쌓이지 않아요. 자발적 Class 2 납부로 그 해를 국가연금에 반영할 수 있어요.',
-      bodyEn: 'Your profit is below the small profits threshold, so you do not get an automatic National Insurance credit. Paying voluntary Class 2 contributions keeps this year counting towards your State Pension.',
+      bodyKo: `이익이 소액이익 기준보다 낮으면 국민보험 크레딧이 자동으로 쌓이지 않아요. 자발적 Class 2 납부(주당 약 ${weeklyRate})로 그 해를 국가연금에 반영할 수 있어요.`,
+      bodyEn: `Your profit is below the small profits threshold, so you do not get an automatic National Insurance credit. Paying voluntary Class 2 contributions (about ${weeklyRate} a week) keeps this year counting towards your State Pension.`,
       govUkUrl: 'https://www.gov.uk/self-employed-national-insurance-rates',
     })
   }
