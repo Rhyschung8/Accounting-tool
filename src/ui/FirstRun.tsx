@@ -65,16 +65,34 @@ export function FirstRun({
     onComplete()
   }
 
+  // M5: 1-2-3 step indicator helper
+  function StepIndicator({ current }: { current: 1 | 2 | 3 }) {
+    return (
+      <div className="first-run__steps" aria-label="단계 / Step">
+        {([1, 2, 3] as const).map(n => (
+          <div
+            key={n}
+            className={`first-run__step${n === current ? ' first-run__step--active' : n < current ? ' first-run__step--done' : ''}`}
+            aria-current={n === current ? 'step' : undefined}
+          >
+            {n}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   if (screen === 'folder') {
     return (
       <div className="first-run">
+        <StepIndicator current={1} />
         <h2>시작하기 / Getting started</h2>
         <p>
           저장 폴더 선택 / Choose a folder where your records will be saved
         </p>
         <div className="first-run-buttons">
-          <button onClick={handleFolderPick}>폴더 선택 / Pick a folder</button>
-          <button onClick={handleSkipFolder}>건너뛰기 / Skip</button>
+          <button className="btn-primary" onClick={handleFolderPick}>폴더 선택 / Pick a folder</button>
+          <button className="btn-secondary" onClick={handleSkipFolder}>건너뛰기 / Skip</button>
         </div>
       </div>
     )
@@ -83,6 +101,7 @@ export function FirstRun({
   if (screen === 'homeHours') {
     return (
       <div className="first-run">
+        <StepIndicator current={2} />
         <h2>재택근무 / Working from home</h2>
         <label>
           주당 재택근무 시간 / Hours per week working from home
@@ -95,8 +114,8 @@ export function FirstRun({
           />
         </label>
         <div className="first-run-buttons">
-          <button onClick={handleSaveHours}>다음 / Next</button>
-          <button onClick={handleSkipHours}>건너뛰기 / Skip</button>
+          <button className="btn-primary" onClick={handleSaveHours}>다음 / Next</button>
+          <button className="btn-secondary" onClick={handleSkipHours}>건너뛰기 / Skip</button>
         </div>
       </div>
     )
@@ -105,6 +124,7 @@ export function FirstRun({
   // screen === 'otherIncome'
   return (
     <div className="first-run">
+      <StepIndicator current={3} />
       <h2>기타 수입 / Other income</h2>
       <p>
         피아노 교습 외 다른 수입이 있으신가요? / Do you have income from sources other than piano teaching?
@@ -119,8 +139,8 @@ export function FirstRun({
         />
       </label>
       <div className="first-run-buttons">
-        <button onClick={handleComplete}>완료 / Done</button>
-        <button onClick={handleSkipOtherIncome}>건너뛰기 / Skip</button>
+        <button className="btn-primary" onClick={handleComplete}>완료 / Done</button>
+        <button className="btn-secondary" onClick={handleSkipOtherIncome}>건너뛰기 / Skip</button>
       </div>
     </div>
   )

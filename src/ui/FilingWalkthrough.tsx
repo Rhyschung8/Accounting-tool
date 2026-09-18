@@ -38,7 +38,7 @@ export function FilingWalkthrough({ figures }: Props) {
 
       {/* Step 2: Turnover */}
       <li className="filing-step filing-step--turnover">
-        <h3>2단계 / Step 2 — 칸 {turnoverBox.number}</h3>
+        <h3>2단계 / Step 2 — <span className="filing-step__box">칸 {turnoverBox.number}</span></h3>
         <p>
           <strong>{turnoverBox.labelKo} / {turnoverBox.labelEn}</strong>
         </p>
@@ -49,7 +49,7 @@ export function FilingWalkthrough({ figures }: Props) {
 
       {/* Step 3: Total allowable expenses */}
       <li className="filing-step filing-step--expenses">
-        <h3>3단계 / Step 3 — 칸 {expensesBox.number}</h3>
+        <h3>3단계 / Step 3 — <span className="filing-step__box">칸 {expensesBox.number}</span></h3>
         <p>
           <strong>{expensesBox.labelKo} / {expensesBox.labelEn}</strong>
         </p>
@@ -76,7 +76,7 @@ export function FilingWalkthrough({ figures }: Props) {
       {/* Step 4: Net profit or loss */}
       {!figures.isLoss ? (
         <li className="filing-step filing-step--profit">
-          <h3>4단계 / Step 4 — 칸 {netProfitBox.number}</h3>
+          <h3>4단계 / Step 4 — <span className="filing-step__box">칸 {netProfitBox.number}</span></h3>
           <p>
             <strong>{netProfitBox.labelKo} / {netProfitBox.labelEn}</strong>
           </p>
@@ -86,7 +86,7 @@ export function FilingWalkthrough({ figures }: Props) {
         </li>
       ) : (
         <li className="filing-step filing-step--loss">
-          <h3>4단계 / Step 4 — 칸 {netLossBox.number}</h3>
+          <h3>4단계 / Step 4 — <span className="filing-step__box">칸 {netLossBox.number}</span></h3>
           <p>
             <strong>{netLossBox.labelKo} / {netLossBox.labelEn}</strong>
           </p>
