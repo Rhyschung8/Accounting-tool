@@ -14,9 +14,12 @@ import { GotPaidForm } from './forms/GotPaidForm'
 import { BoughtSomethingForm } from './forms/BoughtSomethingForm'
 import { DroveToLessonForm } from './forms/DroveToLessonForm'
 import { WorkedFromHomeForm } from './forms/WorkedFromHomeForm'
+import { NudgesPanel } from './NudgesPanel'
+import { YearEndScreen } from './YearEndScreen'
+import { GoodToKnow } from './GoodToKnow'
 
 type ActiveForm = 'gotPaid' | 'boughtSomething' | 'drove' | 'workedFromHome' | null
-type ActiveView = 'home' | 'entries' | 'deleted' | 'settings'
+type ActiveView = 'home' | 'entries' | 'deleted' | 'settings' | 'yearEnd' | 'goodToKnow'
 
 export function HomeScreen() {
   const { state } = useStore()
@@ -74,6 +77,28 @@ export function HomeScreen() {
     )
   }
 
+  if (activeView === 'yearEnd') {
+    return (
+      <div className="app-shell">
+        <button className="back-link" onClick={() => setActiveView('home')}>
+          ← 연말 정산 / Year-end &amp; filing
+        </button>
+        <YearEndScreen />
+      </div>
+    )
+  }
+
+  if (activeView === 'goodToKnow') {
+    return (
+      <div className="app-shell">
+        <button className="back-link" onClick={() => setActiveView('home')}>
+          ← 알아두기 / Good to know
+        </button>
+        <GoodToKnow />
+      </div>
+    )
+  }
+
   return (
     <div className="app-shell">
       {/* Tax-year selector */}
@@ -93,6 +118,9 @@ export function HomeScreen() {
 
       {/* Summary */}
       <SummaryPanel taxYear={taxYear} />
+
+      {/* Contextual nudges */}
+      <NudgesPanel taxYear={currentTaxYear()} />
 
       {/* Four action BigButtons */}
       <div className="action-buttons">
@@ -128,6 +156,12 @@ export function HomeScreen() {
         </button>
         <button className="secondary-link" onClick={() => setActiveView('settings')}>
           {bilingual('settings')}
+        </button>
+        <button className="secondary-link" onClick={() => setActiveView('yearEnd')}>
+          연말 정산 / Year-end &amp; filing
+        </button>
+        <button className="secondary-link" onClick={() => setActiveView('goodToKnow')}>
+          알아두기 / Good to know
         </button>
       </nav>
 

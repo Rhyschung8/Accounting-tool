@@ -27,6 +27,14 @@ describe('Settings', () => {
     expect(autos.filter(e => taxYearOf(e.date) === '2026/27')).toHaveLength(12)
   })
 
+  it('toggling the spouse checkbox updates spouseIsBasicRateTaxpayer to true', async () => {
+    const store = await mount()
+    const checkbox = screen.getByLabelText(/basic-rate/i)
+    expect(store.getState().settings.spouseIsBasicRateTaxpayer).toBe(false)
+    fireEvent.click(checkbox)
+    await waitFor(() => expect(store.getState().settings.spouseIsBasicRateTaxpayer).toBe(true))
+  })
+
   it('ignores invalid hours (empty or NaN) and preserves existing settings', async () => {
     const store = await mount()
     // First, save valid hours

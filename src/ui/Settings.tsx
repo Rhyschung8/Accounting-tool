@@ -141,6 +141,19 @@ export function Settings() {
         <button onClick={handleSaveThreshold}>저장 / Save threshold</button>
       </section>
 
+      {/* Spouse basic-rate taxpayer */}
+      <section>
+        <label>
+          <input
+            type="checkbox"
+            aria-label="배우자가 기본세율 납세자인가요? / Is your spouse a basic-rate taxpayer?"
+            checked={state.settings.spouseIsBasicRateTaxpayer}
+            onChange={e => setSettings({ spouseIsBasicRateTaxpayer: e.target.checked })}
+          />
+          배우자가 기본세율 납세자인가요? / Is your spouse a basic-rate taxpayer?
+        </label>
+      </section>
+
       {/* Backup */}
       <section>
         <button
