@@ -76,11 +76,11 @@ export function Settings() {
   }
 
   return (
-    <div>
+    <div className="settings-screen">
       <h2>설정 / Settings</h2>
 
       {/* Text size */}
-      <section>
+      <section className="settings-section">
         <fieldset>
           <legend>글자 크기 / Text size</legend>
           {TEXT_SIZE_OPTIONS.map(({ value, label }) => (
@@ -99,7 +99,7 @@ export function Settings() {
       </section>
 
       {/* Hours per week at home */}
-      <section>
+      <section className="settings-section">
         <label>
           주당 재택근무 시간 / Hours per week working from home
           <input
@@ -114,7 +114,7 @@ export function Settings() {
       </section>
 
       {/* Other income */}
-      <section>
+      <section className="settings-section">
         <label>
           기타 수입 / Other income (£)
           <input
@@ -128,7 +128,7 @@ export function Settings() {
       </section>
 
       {/* Large purchase threshold */}
-      <section>
+      <section className="settings-section">
         <label>
           큰 구매 기준 / Large-purchase threshold (£)
           <input
@@ -142,7 +142,7 @@ export function Settings() {
       </section>
 
       {/* Spouse basic-rate taxpayer */}
-      <section>
+      <section className="settings-section">
         <label>
           <input
             type="checkbox"
@@ -155,7 +155,7 @@ export function Settings() {
       </section>
 
       {/* Backup */}
-      <section>
+      <section className="settings-section">
         <button
           onClick={handleBackup}
           disabled={typeof window.showDirectoryPicker !== 'function'}

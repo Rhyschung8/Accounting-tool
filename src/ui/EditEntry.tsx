@@ -31,7 +31,7 @@ export function EditEntry({ entry, onClose }: { entry: Entry; onClose: () => voi
   }
 
   return (
-    <div>
+    <div className="edit-entry">
       <label>
         날짜 / Date
         <input
@@ -71,14 +71,16 @@ export function EditEntry({ entry, onClose }: { entry: Entry; onClose: () => voi
           ))}
         </select>
       </label>
-      <button onClick={handleSave}>저장 / Save</button>
-      {!deleted && (
-        <button onClick={handleDelete}>삭제 / Delete</button>
-      )}
-      {deleted && (
-        <button onClick={handleUndo}>되돌리기 / Undo</button>
-      )}
-      <button onClick={onClose}>닫기 / Close</button>
+      <div className="edit-entry-actions">
+        <button onClick={handleSave}>저장 / Save</button>
+        {!deleted && (
+          <button onClick={handleDelete}>삭제 / Delete</button>
+        )}
+        {deleted && (
+          <button onClick={handleUndo}>되돌리기 / Undo</button>
+        )}
+        <button onClick={onClose}>닫기 / Close</button>
+      </div>
     </div>
   )
 }
