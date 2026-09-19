@@ -183,6 +183,15 @@ export function IconHomeNav(props: IconProps) {
   )
 }
 
+/** Receipt attached — paperclip */
+export function IconReceipt(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <path d="M21.44 11.05 L12.25 20.24 A5 5 0 0 1 5.18 13.17 L14.37 3.98 A3.5 3.5 0 0 1 19.32 8.93 L10.12 18.12 A2 2 0 0 1 7.29 15.29 L15.78 6.81" />
+    </Icon>
+  )
+}
+
 /** Tip / lightbulb */
 export function IconTip(props: IconProps) {
   return (
