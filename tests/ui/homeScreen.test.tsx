@@ -30,12 +30,14 @@ describe('HomeScreen', () => {
 
   it('shows the CSV export button', async () => {
     await renderHomeScreen()
-    expect(screen.getByText(/Export CSV/)).toBeInTheDocument()
+    // Button text is "CSV 내보내기 / Export" in the new dashboard layout
+    expect(screen.getByText(/Export/)).toBeInTheDocument()
   })
 
-  it('shows nav links to See everything, Recently deleted, and Settings', async () => {
+  it('shows nav links to All entries, Recently deleted, and Settings', async () => {
     await renderHomeScreen()
-    expect(screen.getByText(/See everything/)).toBeInTheDocument()
+    // Sidebar nav uses new labels: All entries / Recently deleted / Settings
+    expect(screen.getByText(/All entries/)).toBeInTheDocument()
     expect(screen.getByText(/Recently deleted/)).toBeInTheDocument()
     expect(screen.getByText(/Settings/)).toBeInTheDocument()
   })

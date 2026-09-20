@@ -1,9 +1,10 @@
 // src/ui/HomeScreen.tsx
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { useStore } from '../state/useStore'
 import { currentTaxYear, formatTaxYear } from '../domain/taxYear'
 import { toCsv } from '../domain/csvExport'
-import { bilingual, strings } from '../i18n/strings'
+import { strings } from '../i18n/strings'
 import { TAX_YEARS } from '../config/taxYears'
 import { BigButton } from './components/BigButton'
 import { SummaryPanel } from './SummaryPanel'
@@ -17,9 +18,66 @@ import { WorkedFromHomeForm } from './forms/WorkedFromHomeForm'
 import { NudgesPanel } from './NudgesPanel'
 import { YearEndScreen } from './YearEndScreen'
 import { GoodToKnow } from './GoodToKnow'
+import {
+  IconPiano,
+  IconHomeNav,
+  IconEntries,
+  IconYearEnd,
+  IconGoodToKnow,
+  IconTrash,
+  IconSettings,
+  IconPaid,
+  IconBought,
+  IconDrove,
+  IconHome,
+} from './components/icons'
 
 type ActiveForm = 'gotPaid' | 'boughtSomething' | 'drove' | 'workedFromHome' | null
 type ActiveView = 'home' | 'entries' | 'deleted' | 'settings' | 'yearEnd' | 'goodToKnow'
+
+interface NavItem {
+  view: ActiveView
+  icon: ReactNode
+  ko: string
+  en: string
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { view: 'home',       icon: <IconHomeNav size={22} />,     ko: '홈',         en: 'Home' },
+  { view: 'entries',    icon: <IconEntries size={22} />,     ko: '전체 내역',  en: 'All entries' },
+  { view: 'yearEnd',    icon: <IconYearEnd size={22} />,     ko: '연말 정산',  en: 'Year-end & filing' },
+  { view: 'goodToKnow', icon: <IconGoodToKnow size={22} />,  ko: '알아두기',   en: 'Good to know' },
+]
+
+const FOOT_ITEMS: NavItem[] = [
+  { view: 'deleted',  icon: <IconTrash size={22} />,    ko: '최근 삭제', en: 'Recently deleted' },
+  { view: 'settings', icon: <IconSettings size={22} />, ko: '설정',      en: 'Settings' },
+]
+
+// ─── SidebarButton hoisted to module scope ────────────────────────────────────
+interface SidebarButtonProps {
+  item: NavItem
+  activeView: ActiveView
+  setActiveView: (v: ActiveView) => void
+}
+
+function SidebarButton({ item, activeView, setActiveView }: SidebarButtonProps) {
+  const isActive = activeView === item.view
+  return (
+    <button
+      className={`sidebar__item${isActive ? ' is-active' : ''}`}
+      aria-current={isActive ? 'page' : undefined}
+      onClick={() => setActiveView(item.view)}
+    >
+      <span className="sidebar__ico">{item.icon}</span>
+      <span>
+        <span className="lang-ko">{item.ko}</span>
+        <span className="lang-en">{item.en}</span>
+      </span>
+    </button>
+  )
+}
+// ─────────────────────────────────────────────────────────────────────────────
 
 export function HomeScreen() {
   const { state } = useStore()
@@ -44,131 +102,116 @@ export function HomeScreen() {
     setActiveForm(null)
   }
 
-  if (activeView === 'entries') {
-    return (
-      <div className="app-shell">
-        <button className="back-link" onClick={() => setActiveView('home')}>
-          ← {bilingual('seeEverything')}
-        </button>
-        <EntryList taxYear={taxYear} />
-      </div>
-    )
+  function renderMainContent() {
+    switch (activeView) {
+      case 'entries':
+        return <EntryList taxYear={taxYear} />
+      case 'deleted':
+        return <RecentlyDeleted />
+      case 'settings':
+        return <Settings />
+      case 'yearEnd':
+        return <YearEndScreen />
+      case 'goodToKnow':
+        return <GoodToKnow />
+      default:
+        return renderHome()
+    }
   }
 
-  if (activeView === 'deleted') {
+  function renderHome() {
     return (
-      <div className="app-shell">
-        <button className="back-link" onClick={() => setActiveView('home')}>
-          ← {bilingual('recentlyDeleted')}
-        </button>
-        <RecentlyDeleted />
-      </div>
-    )
-  }
+      <>
+        <header className="page-head">
+          <div>
+            <h1>올해 요약 / Your year so far</h1>
+            <p className="page-head__sub">세금 연도 {taxYear} · {formatTaxYear(taxYear)}</p>
+          </div>
+          <div className="page-head__actions">
+            <select
+              aria-label="Tax year"
+              value={taxYear}
+              onChange={e => setTaxYear(e.target.value)}
+            >
+              {availableYears.map(y => (
+                <option key={y} value={y}>{formatTaxYear(y)}</option>
+              ))}
+            </select>
+            <button className="btn-primary" onClick={handleExportCsv}>
+              CSV 내보내기 / Export
+            </button>
+          </div>
+        </header>
 
-  if (activeView === 'settings') {
-    return (
-      <div className="app-shell">
-        <button className="back-link" onClick={() => setActiveView('home')}>
-          ← {bilingual('settings')}
-        </button>
-        <Settings />
-      </div>
-    )
-  }
+        <SummaryPanel taxYear={taxYear} />
 
-  if (activeView === 'yearEnd') {
-    return (
-      <div className="app-shell">
-        <button className="back-link" onClick={() => setActiveView('home')}>
-          ← 연말 정산 / Year-end &amp; filing
-        </button>
-        <YearEndScreen />
-      </div>
-    )
-  }
+        <NudgesPanel taxYear={currentTaxYear()} />
 
-  if (activeView === 'goodToKnow') {
-    return (
-      <div className="app-shell">
-        <button className="back-link" onClick={() => setActiveView('home')}>
-          ← 알아두기 / Good to know
-        </button>
-        <GoodToKnow />
-      </div>
+        <h2 className="section-title">
+          무엇을 할까요? <span className="lang-en">What would you like to do?</span>
+        </h2>
+
+        <div className="action-buttons">
+          <BigButton
+            icon={<IconPaid size={30} />}
+            labelKo={strings.gotPaid.ko}
+            labelEn={strings.gotPaid.en}
+            onClick={() => setActiveForm('gotPaid')}
+          />
+          <BigButton
+            icon={<IconBought size={30} />}
+            labelKo={strings.boughtSomething.ko}
+            labelEn={strings.boughtSomething.en}
+            onClick={() => setActiveForm('boughtSomething')}
+          />
+          <BigButton
+            icon={<IconDrove size={30} />}
+            labelKo={strings.drove.ko}
+            labelEn={strings.drove.en}
+            onClick={() => setActiveForm('drove')}
+          />
+          <BigButton
+            icon={<IconHome size={30} />}
+            labelKo={strings.workedFromHome.ko}
+            labelEn={strings.workedFromHome.en}
+            onClick={() => setActiveForm('workedFromHome')}
+          />
+        </div>
+
+        {/* M4: empty-state welcome hint */}
+        {state.entries.filter(e => !e.deletedAt).length === 0 && (
+          <div className="welcome-hint">
+            <span className="lang-ko">아직 기록이 없어요. 아래에서 시작해 보세요</span>
+            <span className="lang-en">No records yet — tap a button below to start.</span>
+          </div>
+        )}
+      </>
     )
   }
 
   return (
-    <div className="app-shell">
-      {/* Tax-year selector */}
-      <div className="year-selector">
-        <label htmlFor="tax-year-select">세금 연도 / Tax year</label>
-        <select
-          id="tax-year-select"
-          aria-label="Tax year"
-          value={taxYear}
-          onChange={e => setTaxYear(e.target.value)}
-        >
-          {availableYears.map(y => (
-            <option key={y} value={y}>{formatTaxYear(y)}</option>
+    <div className="layout">
+      <aside className="sidebar">
+        <div className="sidebar__brand">
+          <IconPiano size={24} />
+          <span>피아노 회계</span>
+        </div>
+        <nav aria-label="메뉴 / Menu">
+          <span className="sidebar__label">메뉴 / Menu</span>
+          {NAV_ITEMS.map(item => (
+            <SidebarButton key={item.view} item={item} activeView={activeView} setActiveView={setActiveView} />
           ))}
-        </select>
-      </div>
+          <div className="sidebar__foot">
+            {FOOT_ITEMS.map(item => (
+              <SidebarButton key={item.view} item={item} activeView={activeView} setActiveView={setActiveView} />
+            ))}
+          </div>
+        </nav>
+      </aside>
 
-      {/* Summary */}
-      <SummaryPanel taxYear={taxYear} />
-
-      {/* Contextual nudges */}
-      <NudgesPanel taxYear={currentTaxYear()} />
-
-      {/* Four action BigButtons */}
-      <div className="action-buttons">
-        <BigButton
-          icon="💷"
-          label={`${strings.gotPaid.ko} / ${strings.gotPaid.en}`}
-          onClick={() => setActiveForm('gotPaid')}
-        />
-        <BigButton
-          icon="🛒"
-          label={`${strings.boughtSomething.ko} / ${strings.boughtSomething.en}`}
-          onClick={() => setActiveForm('boughtSomething')}
-        />
-        <BigButton
-          icon="🚗"
-          label={`${strings.drove.ko} / ${strings.drove.en}`}
-          onClick={() => setActiveForm('drove')}
-        />
-        <BigButton
-          icon="🏠"
-          label={`${strings.workedFromHome.ko} / ${strings.workedFromHome.en}`}
-          onClick={() => setActiveForm('workedFromHome')}
-        />
-      </div>
-
-      {/* Secondary nav */}
-      <nav className="secondary-nav">
-        <button className="secondary-link" onClick={() => setActiveView('entries')}>
-          {bilingual('seeEverything')}
-        </button>
-        <button className="secondary-link" onClick={() => setActiveView('deleted')}>
-          {bilingual('recentlyDeleted')}
-        </button>
-        <button className="secondary-link" onClick={() => setActiveView('settings')}>
-          {bilingual('settings')}
-        </button>
-        <button className="secondary-link" onClick={() => setActiveView('yearEnd')}>
-          연말 정산 / Year-end &amp; filing
-        </button>
-        <button className="secondary-link" onClick={() => setActiveView('goodToKnow')}>
-          알아두기 / Good to know
-        </button>
-      </nav>
-
-      {/* CSV export */}
-      <button className="csv-export-btn" onClick={handleExportCsv}>
-        CSV 내보내기 / Export CSV
-      </button>
+      <main className="main">
+        {renderMainContent()}
+      </main>
 
       {/* Modal for active form */}
       {activeForm !== null && (

@@ -48,7 +48,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((c) => c.put(request, copy))
           return resp
         })
-        .catch(() => caches.match(request).then((m) => m || caches.match('/index.html')))
+        .catch(() => caches.match(request).then((m) => m || caches.match('./index.html')))
     )
     return
   }

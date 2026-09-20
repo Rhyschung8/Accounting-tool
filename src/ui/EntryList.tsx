@@ -4,6 +4,7 @@ import { useStore } from '../state/useStore'
 import { taxYearOf } from '../domain/taxYear'
 import { CATEGORIES } from '../config/categories'
 import { MoneyDisplay } from './components/MoneyDisplay'
+import { IconReceipt } from './components/icons'
 import { EditEntry } from './EditEntry'
 import type { Entry } from '../domain/entry'
 
@@ -59,14 +60,14 @@ export function EntryList({ taxYear }: { taxYear: string }) {
                     <span className="entry-date">{entry.date}</span>
                     <span className="entry-description">
                       {entry.description}
-                      {isAuto && <span className="entry-auto"> 자동 / auto</span>}
+                      {isAuto && <span className="pill pill--muted entry-auto"> 자동 / auto</span>}
                     </span>
                     <span className="entry-category">{getCategoryLabel(entry.category)}</span>
                     <MoneyDisplay pence={entry.amountPence} />
                     {entry.claimable === false && (
-                      <span className="entry-not-claimed">미청구 / not claimed</span>
+                      <span className="pill pill--muted entry-not-claimed">미청구 / not claimed</span>
                     )}
-                    {entry.receiptFile && <span className="entry-receipt" aria-label="receipt">📎</span>}
+                    {entry.receiptFile && <span className="pill pill--ok entry-receipt" aria-label="receipt"><IconReceipt size={16} /></span>}
                   </button>
                 </li>
               )

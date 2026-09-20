@@ -14,29 +14,48 @@
 /* ─── Design tokens ─────────────────────────────────────── */
 :root {
   /* Palette */
-  --colour-bg:           #FAF7F2;   /* warm cream */
+  --colour-bg:           #EFF5F1;   /* pale mint */
   --colour-surface:      #FFFFFF;   /* card surface */
-  --colour-fg:           #2E2A26;   /* warm charcoal */
-  --colour-muted:        #6B6459;   /* secondary text */
-  --colour-accent:       #5F7D5B;   /* sage — buttons / links */
-  --colour-accent-dark:  #42583F;   /* darker sage — text-on-accent / link text */
-  --colour-border:       #E7E0D6;   /* soft border */
-  --colour-warning:      #B5643C;   /* soft terracotta — nudges / warnings ONLY */
+  --colour-fg:           #1F2A24;   /* cool charcoal-green */
+  --colour-muted:        #586A60;   /* secondary text */
+  --colour-accent:       #128A5A;   /* emerald — buttons / links */
+  --colour-accent-dark:  #0B6A45;   /* darker emerald — text-on-accent / link text / focus */
+  --colour-border:       #D8E6DE;   /* soft mint border */
+  --colour-warning:      #C2683B;   /* terracotta — nudges / warnings ONLY */
 
-  /* Shadow */
-  --shadow-card:         0 1px 4px rgba(0,0,0,0.06), 0 2px 12px rgba(0,0,0,0.04);
+  /* Shadow — warm, tied to charcoal not pure black */
+  --shadow-card:         0 1px 2px rgba(46,42,38,.04), 0 4px 16px rgba(46,42,38,.06);
 
   /* Shape */
   --radius-card:         14px;
   --radius-btn:          28px;      /* pill-ish */
   --radius-input:        8px;
 
-  /* Typography */
+  /* Typography — type scale (18px base = 1rem) */
   --font-size-base:  18px;
   --font-size-lg:    1.25rem;
   --font-size-xl:    1.5rem;
   --font-stack:      'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic',
                      system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Named type-scale tokens */
+  --fs-caption:      0.78rem;   /* caveats, dates */
+  --fs-sub:          0.9rem;    /* English secondary line, meta */
+  --fs-body:         1rem;      /* body */
+  --fs-lead:         1.15rem;   /* Korean primary label */
+  --fs-lg:           1.35rem;   /* section headings, button labels */
+  --fs-xl:           1.6rem;    /* screen titles */
+  --fs-money:        1.5rem;    /* money figures in cards */
+  --fs-money-hero:   2rem;      /* headline "what's left" number */
+
+  /* Spacing scale (4px step) */
+  --space-1:  .25rem;
+  --space-2:  .5rem;
+  --space-3:  .75rem;
+  --space-4:  1rem;
+  --space-5:  1.5rem;
+  --space-6:  2rem;
+  --space-8:  3rem;
 
   /* Tap targets */
   --tap-min: 56px;
@@ -49,7 +68,60 @@ html {
   color: var(--colour-fg);
   font-family: var(--font-stack);
   line-height: 1.55;
+  letter-spacing: 0.01em;  /* Latin-friendly; scoped off Korean via .lang-ko */
+}
+
+/* ─── Money figures (H1) ────────────────────────────────── */
+.money {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0;
+  color: var(--colour-fg);   /* always charcoal — never sage/terracotta/red */
+  white-space: nowrap;
+}
+
+/* ─── Bilingual hierarchy (D2 / H3) ────────────────────── */
+.lang-ko {
+  color: var(--colour-fg);
+  font-weight: 600;
+  letter-spacing: 0;         /* L3: no tracking on Hangul */
+}
+
+.lang-en {
+  display: block;
+  color: var(--colour-muted);
+  font-weight: 400;
+  font-size: var(--fs-sub);
+  margin-top: 2px;
   letter-spacing: 0.01em;
+}
+
+/* ─── Status pills (item 8) ─────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: var(--fs-sub);
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.pill--ok {
+  background: #EEF4EF;
+  color: var(--colour-accent-dark);
+}
+
+.pill--warn {
+  background: #FDF3EE;
+  color: #9A4E2C;
+}
+
+.pill--muted {
+  background: var(--colour-border);
+  color: var(--colour-muted);
 }
 
 /* ─── Text-size overrides ───────────────────────────────── */
@@ -79,7 +151,7 @@ a {
 }
 
 a:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
   border-radius: 3px;
 }
@@ -117,7 +189,7 @@ a:focus-visible {
 }
 
 .year-selector select:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
 }
 
@@ -133,14 +205,14 @@ a:focus-visible {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
+  gap: var(--space-3);
   min-height: calc(var(--tap-min) * 1.8);
   padding: 1.25rem 0.75rem;
   font-size: var(--font-size-lg);
   font-weight: 600;
-  background: var(--colour-surface);
+  background: #FBFCFA;          /* M1: faint sage tint */
   color: var(--colour-accent-dark);
-  border: 1.5px solid var(--colour-border);
+  border: 1.5px solid #DDE4DA;  /* M1: slightly green-tinted border */
   border-radius: var(--radius-card);
   cursor: pointer;
   text-align: center;
@@ -150,24 +222,29 @@ a:focus-visible {
 }
 
 .big-button:hover {
-  background: #F3EFE9;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: #F1F5EF;          /* M1: deeper sage tint on hover */
+  box-shadow: 0 2px 8px rgba(46,42,38,0.1);
 }
 
 .big-button:active {
-  background: #EDE7DF;
+  background: #E8EFE5;
 }
 
 .big-button:focus-visible {
-  outline: 3px solid var(--colour-accent);
-  outline-offset: 3px;
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
 }
 
 .big-button__icon {
-  font-size: var(--font-size-xl);
+  font-size: 2rem;               /* M1: bump emoji to anchor tile */
 }
 
-/* ─── Secondary nav ─────────────────────────────────────── */
+.big-button__label {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+}
+
+/* ─── Secondary nav (M3 — transparent/border, fill on hover) */
 .secondary-nav {
   display: flex;
   flex-wrap: wrap;
@@ -175,12 +252,12 @@ a:focus-visible {
 }
 
 .secondary-link {
-  font-size: 0.9em;
+  font-size: var(--fs-sub);
   padding: 0.5rem 1.1rem;
   min-height: var(--tap-min);
   border: 1.5px solid var(--colour-border);
   border-radius: var(--radius-btn);
-  background: var(--colour-surface);
+  background: transparent;
   color: var(--colour-accent-dark);
   cursor: pointer;
   font-weight: 500;
@@ -188,22 +265,22 @@ a:focus-visible {
 }
 
 .secondary-link:hover {
-  background: #F3EFE9;
+  background: #EEF4EF;
 }
 
 .secondary-link:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
 }
 
-/* ─── CSV export button ─────────────────────────────────── */
+/* ─── CSV export button (M3 — same quiet treatment) ────── */
 .csv-export-btn {
-  font-size: 0.9em;
+  font-size: var(--fs-sub);
   padding: 0.5rem 1.1rem;
   min-height: var(--tap-min);
   border: 1.5px solid var(--colour-border);
   border-radius: var(--radius-btn);
-  background: var(--colour-surface);
+  background: transparent;
   color: var(--colour-accent-dark);
   cursor: pointer;
   align-self: flex-start;
@@ -212,11 +289,11 @@ a:focus-visible {
 }
 
 .csv-export-btn:hover {
-  background: #F3EFE9;
+  background: #EEF4EF;
 }
 
 .csv-export-btn:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
 }
 
@@ -234,33 +311,46 @@ a:focus-visible {
 }
 
 .back-link:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ─── Modal ─────────────────────────────────────────────── */
+/* ─── Modal (L5 — centered on desktop) ─────────────────── */
 .modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(46,42,38,0.48);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   z-index: 100;
+  padding: var(--space-4);
+}
+
+/* Mobile: keep sheet-from-bottom feel on narrow screens */
+@media (max-width: 560px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .modal-content {
+    border-radius: 20px 20px 0 0 !important;
+    max-width: 100% !important;
+  }
 }
 
 .modal-content {
   background: var(--colour-surface);
   color: var(--colour-fg);
   width: 100%;
-  max-width: 640px;
+  max-width: 520px;
   max-height: 90dvh;
   overflow-y: auto;
-  border-radius: 20px 20px 0 0;
-  padding: 2rem 1.5rem 1.75rem;
+  border-radius: 20px;
+  padding: var(--space-6) var(--space-5) var(--space-5);
   position: relative;
-  box-shadow: 0 -4px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 40px rgba(46,42,38,0.18);
 }
 
 .modal-close {
@@ -282,33 +372,108 @@ a:focus-visible {
 }
 
 .modal-close:hover {
-  background: #EDE7DF;
+  background: #E6EDE8;
 }
 
 .modal-close:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
 }
 
-/* ─── Summary panel ─────────────────────────────────────── */
+/* ─── Modal form internals (H4) ────────────────────────── */
+.modal-content form,
+.modal-content > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.modal-content h2 {
+  font-size: var(--fs-lg);
+  margin-bottom: var(--space-2);
+}
+
+/* Repeat-payer chips */
+.payer-chip {
+  min-height: var(--tap-min);
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid var(--colour-border);
+  border-radius: var(--radius-input);
+  background: var(--colour-surface);
+  color: var(--colour-fg);
+  font-size: var(--fs-body);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.payer-chip:hover {
+  background: #F1F5EF;
+}
+
+.payer-chip:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+}
+
+/* Amount validation error */
+.form-error {
+  color: var(--colour-warning);
+  font-size: var(--fs-sub);
+  margin-top: calc(-1 * var(--space-2));
+}
+
+/* ─── Summary panel (H2) ────────────────────────────────── */
 .summary {
-  padding: 1.25rem 1.5rem;
+  padding: var(--space-5) var(--space-5);
   background: var(--colour-surface);
   border: 1.5px solid var(--colour-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--space-3);
+}
+
+/* Label-left / amount-right layout */
+.summary > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.summary > div > span:first-child {
+  color: var(--colour-muted);
+}
+
+.summary .money {
+  font-size: var(--fs-money);
+}
+
+/* Promote the "what's left" hero row */
+.summary__row--hero {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--colour-border);
+}
+
+.summary__row--hero .money {
+  font-size: var(--fs-money-hero);
+  color: var(--colour-fg);
 }
 
 .summary__tax {
   font-weight: 600;
   color: var(--colour-fg);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
 }
 
 .summary__caveat {
-  font-size: 0.82em;
+  font-size: var(--fs-caption);
   color: var(--colour-muted);
   line-height: 1.45;
 }
@@ -319,7 +484,7 @@ a:focus-visible {
   font-weight: 500;
 }
 
-/* ─── Nudges panel ──────────────────────────────────────── */
+/* ─── Nudges panel (M2) ─────────────────────────────────── */
 .nudges {
   display: flex;
   flex-direction: column;
@@ -327,10 +492,10 @@ a:focus-visible {
 }
 
 .nudge-card {
-  background: var(--colour-surface);
+  background: #FDF7F3;            /* M2: faint terracotta tint — sticky-note feel */
   border-left: 4px solid var(--colour-warning);
   border-radius: 0 var(--radius-card) var(--radius-card) 0;
-  padding: 1rem 1.25rem;
+  padding: var(--space-4) var(--space-5);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
@@ -338,20 +503,44 @@ a:focus-visible {
 }
 
 .nudge-card h3 {
-  font-size: 1em;
+  font-size: var(--fs-body);
   font-weight: 600;
 }
 
 .nudge-card p {
-  font-size: 0.9em;
+  font-size: var(--fs-sub);
   color: var(--colour-muted);
   line-height: 1.5;
 }
 
+.nudge-card p:first-of-type {
+  margin-bottom: 2px;            /* M2: Korean line tighter to English */
+}
+
 .nudge-card a {
-  font-size: 0.9em;
+  font-size: var(--fs-sub);
   color: var(--colour-accent-dark);
   font-weight: 500;
+}
+
+/* ─── Welcome hint (M4) ─────────────────────────────────── */
+.welcome-hint {
+  background: #F3F7F2;            /* faint sage tint */
+  border: 1.5px solid #DDE4DA;
+  border-radius: var(--radius-card);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-card);
+}
+
+.welcome-hint .lang-ko {
+  font-size: var(--fs-lead);
+}
+
+.welcome-hint .lang-en {
+  font-size: var(--fs-sub);
 }
 
 /* ─── Entry list ─────────────────────────────────────────── */
@@ -370,12 +559,11 @@ a:focus-visible {
 }
 
 .entry-list section h3 {
-  font-size: 0.95em;
+  font-size: var(--fs-sub);
   font-weight: 600;
   color: var(--colour-muted);
   margin-bottom: 0.6rem;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  /* L4: no uppercase/tracking — sentence case */
 }
 
 .entry-list ul {
@@ -402,7 +590,7 @@ a:focus-visible {
 }
 
 .entry-row:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -469,8 +657,8 @@ input[type="number"]:focus,
 input[type="date"]:focus,
 textarea:focus,
 select:focus {
-  outline: 3px solid var(--colour-accent);
-  outline-offset: 0;
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
   border-color: var(--colour-accent);
 }
 
@@ -505,7 +693,7 @@ button[class=""] ,
 
 .btn-primary:focus-visible {
   outline: 3px solid var(--colour-accent-dark);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 .btn-secondary {
@@ -524,11 +712,11 @@ button[class=""] ,
 }
 
 .btn-secondary:hover {
-  background: #F3EFE9;
+  background: #ECF3EF;
 }
 
 .btn-secondary:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
 }
 
@@ -603,7 +791,7 @@ button[class=""] ,
 
 .settings-section button:focus-visible {
   outline: 3px solid var(--colour-accent-dark);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 .settings-section button:disabled {
@@ -629,6 +817,37 @@ button[class=""] ,
 .first-run p {
   color: var(--colour-muted);
   line-height: 1.6;
+  font-size: var(--fs-body);
+}
+
+/* M5: 1-2-3 step indicator */
+.first-run__steps {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.first-run__step {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-sub);
+  font-weight: 700;
+  background: var(--colour-border);
+  color: var(--colour-muted);
+}
+
+.first-run__step--active {
+  background: var(--colour-accent);
+  color: #FFFFFF;
+}
+
+.first-run__step--done {
+  background: #EEF4EF;
+  color: var(--colour-accent-dark);
 }
 
 .first-run-buttons {
@@ -665,12 +884,12 @@ button[class=""] ,
 }
 
 .first-run-buttons button:last-child:hover {
-  background: #F3EFE9;
+  background: #ECF3EF;
 }
 
 .first-run-buttons button:focus-visible {
-  outline: 3px solid var(--colour-accent);
-  outline-offset: 3px;
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
 }
 
 /* ─── Year-end screen ───────────────────────────────────── */
@@ -719,6 +938,16 @@ button[class=""] ,
 
 .year-end-summary__figures dd {
   font-weight: 600;
+}
+
+/* M6: money uses tabular-nums + fs-money; net row gets top border */
+.year-end-summary__figures dd .money {
+  font-size: var(--fs-money);
+}
+
+.year-end-summary__figures div:last-child {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--colour-border);
 }
 
 .year-end-summary__loss-note {
@@ -788,20 +1017,39 @@ button[class=""] ,
   padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--space-3);
 }
 
 .filing-step h3 {
-  font-size: 0.95em;
-  font-weight: 700;
+  font-size: var(--fs-sub);
+  font-weight: 600;
   color: var(--colour-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  /* L4: sentence case, no uppercase/tracking */
 }
 
-.filing-step__amount {
-  font-size: var(--font-size-lg);
+/* H5: HMRC box number chip */
+.filing-step__box {
+  display: inline-block;
+  background: #EEF2ED;
+  color: var(--colour-accent-dark);
+  border-radius: 6px;
+  padding: 2px 8px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* H5: amount row — framed, unmistakable */
+.filing-step__amount {
+  font-size: var(--fs-money);
+  font-weight: 700;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--colour-border);
+}
+
+.filing-step__amount .money {
+  font-size: var(--fs-money);
+  color: var(--colour-fg);
 }
 
 .filing-step__breakdown {
@@ -963,11 +1211,11 @@ button[class=""] ,
 }
 
 .recently-deleted button:hover {
-  background: #F3EFE9;
+  background: #ECF3EF;
 }
 
 .recently-deleted button:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
 }
 
@@ -977,7 +1225,7 @@ button[class=""] ,
   color: var(--colour-muted);
   line-height: 1.5;
   padding: 0.5rem 0.75rem;
-  background: #F3EFE9;
+  background: #ECF3EF;
   border-radius: var(--radius-input);
 }
 
@@ -1009,8 +1257,305 @@ button[class=""] ,
 }
 
 .edit-entry-actions button:focus-visible {
-  outline: 3px solid var(--colour-accent);
+  outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
+}
+
+/* ─── Dashboard layout ──────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  background: var(--colour-surface);
+  border-right: 1px solid var(--colour-border);
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar__brand {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--colour-fg);
+  padding: 6px 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar__label {
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: var(--colour-muted);
+  text-transform: none;
+  padding: 14px 10px 4px;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 14px;
+  border-radius: 12px;
+  color: var(--colour-fg);
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar__item .lang-en {
+  display: block;
+  color: var(--colour-muted);
+  font-size: .82rem;
+}
+
+.sidebar__item:hover {
+  background: #ECF3EF;
+}
+
+.sidebar__item.is-active {
+  background: #E6F1EB;
+  color: var(--colour-accent-dark);
+  font-weight: 700;
+}
+
+.sidebar__item:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+.sidebar__ico {
+  font-size: 1.3rem;
+  width: 1.6rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sidebar__foot {
+  margin-top: auto;
+  border-top: 1px solid var(--colour-border);
+  padding-top: 10px;
+}
+
+/* Main content area */
+.main {
+  padding: 28px 32px 40px;
+  max-width: 1100px;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.page-head h1 {
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+  color: var(--colour-fg);
+}
+
+.page-head__sub {
+  margin: 0;
+  color: var(--colour-muted);
+  font-size: .95rem;
+}
+
+.page-head__actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.page-head__actions select {
+  min-height: 48px;
+  border-radius: 10px;
+  border: 1.5px solid var(--colour-border);
+  padding: 0 12px;
+  background: var(--colour-surface);
+  color: var(--colour-fg);
+}
+
+/* Stat cards */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.stat-card__top .lang-ko {
+  font-weight: 600;
+  color: var(--colour-fg);
+}
+
+.stat-card__top .lang-en {
+  display: block;
+  color: var(--colour-muted);
+  font-size: .82rem;
+}
+
+.stat-card__chip {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #E6F1EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.stat-card__num {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.9rem;
+  color: var(--colour-fg);
+  white-space: nowrap;
+}
+
+.stat-card--hero {
+  background: #E9F5EE;
+  border-color: #CDE6D9;
+}
+
+.stat-card--hero .stat-card__num {
+  font-size: 2.2rem;
+}
+
+.stat-card--hero .stat-card__chip {
+  background: #FFFFFF;
+}
+
+/* Tax line */
+.tax-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--colour-surface);
+  border: 1px solid var(--colour-border);
+  border-radius: 14px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tax-line__caveat {
+  color: var(--colour-muted);
+  font-size: .8rem;
+  margin: 4px 0 0;
+}
+
+/* Section title */
+.section-title {
+  font-size: 1.2rem;
+  margin: 26px 0 12px;
+  color: var(--colour-fg);
+}
+
+.section-title .lang-en {
+  color: var(--colour-muted);
+  font-size: .85rem;
+  font-weight: 400;
+  margin-left: 6px;
+}
+
+/* Inside .main, action-buttons span 4 columns */
+.main .action-buttons {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ─── Responsive (mobile / narrow) ─────────────────────── */
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--colour-border);
+  }
+
+  .sidebar__foot {
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .stat-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── SVG icon helpers ──────────────────────────────────── */
+/* Ensure all decorative icons render as block so they don't
+   introduce extra inline-baseline whitespace.               */
+.sidebar__ico svg,
+.stat-card__chip svg,
+.big-button__icon svg,
+.nudge-tip-icon {
+  display: block;
+}
+
+/* Sidebar icons inherit the item colour; active item already
+   sets color: var(--colour-accent-dark) via .is-active.      */
+.sidebar__ico {
+  color: var(--colour-muted);
+}
+
+.sidebar__item.is-active .sidebar__ico {
+  color: var(--colour-accent-dark);
+}
+
+/* Stat-card chips — emerald on the pale-green background */
+.stat-card__chip {
+  color: var(--colour-accent-dark);
+}
+
+/* Big-button icon colour */
+.big-button__icon {
+  color: var(--colour-accent-dark);
+}
+
+/* Nudge tip icon — terracotta to match the card's warning tone */
+.nudge-tip-icon {
+  color: var(--colour-warning);
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* ─── Print styles ──────────────────────────────────────── */
@@ -1032,8 +1577,15 @@ button[class=""] ,
   .csv-export-btn,
   .back-link,
   .modal-close,
-  .nudges {
+  .nudges,
+  .welcome-hint,
+  .sidebar,
+  .page-head__actions {
     display: none !important;
+  }
+
+  .layout {
+    display: block;
   }
 
   .app-shell {
@@ -1066,5 +1618,35 @@ button[class=""] ,
 
   .filing-walkthrough {
     page-break-inside: avoid;
+  }
+
+  /* Reset tinted backgrounds to white for print legibility */
+  .nudge-card,
+  .big-button,
+  .welcome-hint,
+  .filing-step__box {
+    background: #ffffff !important;
+    border-color: #cccccc !important;
+  }
+
+  /* Pills / chips print as plain text with a border */
+  .pill,
+  .filing-step__box {
+    border: 1px solid #cccccc;
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 4px;
+    border-radius: 3px;
+  }
+
+  /* BeforeYouFile checklist — keep warning items legible */
+  .checklist-item__ok,
+  .checklist-item__warning {
+    color: #000000 !important;
+  }
+
+  /* First-run step dots needn't print */
+  .first-run__steps {
+    display: none;
   }
 }

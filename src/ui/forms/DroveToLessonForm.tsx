@@ -49,12 +49,12 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
   return (
     <div>
       {saved.map(([dest, m]) => (
-        <button key={dest} onClick={() => add(dest, m)}>
+        <button key={dest} className="payer-chip" onClick={() => add(dest, m)}>
           {dest} — {m} miles
         </button>
       ))}
       {!isNew && (
-        <button onClick={() => setIsNew(true)}>새 장소 / Somewhere new</button>
+        <button className="btn-secondary" onClick={() => setIsNew(true)}>새 장소 / Somewhere new</button>
       )}
       {isNew && (
         <div>
@@ -81,7 +81,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
               We worked this out for you: <MoneyDisplay pence={pence} />
             </p>
           )}
-          <button onClick={() => add(destination, milesNum)}>저장 / Save</button>
+          <button className="btn-primary" onClick={() => add(destination, milesNum)}>저장 / Save</button>
         </div>
       )}
     </div>

@@ -56,12 +56,12 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
   return (
     <div>
       {payers.map(([desc, pence]) => (
-        <button key={desc} onClick={() => addRepeat(desc, pence)}>
+        <button key={desc} className="payer-chip" onClick={() => addRepeat(desc, pence)}>
           {desc} — <MoneyDisplay pence={pence} />
         </button>
       ))}
       {!isNew && (
-        <button onClick={() => setIsNew(true)}>새 분 / Someone new</button>
+        <button className="btn-secondary" onClick={() => setIsNew(true)}>새 분 / Someone new</button>
       )}
       {isNew && (
         <div>
@@ -83,7 +83,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
               placeholder="e.g. 30"
             />
           </label>
-          {amountError && <p role="alert">{amountError}</p>}
+          {amountError && <p role="alert" className="form-error">{amountError}</p>}
           <label>
             이름 / Name
             <input
@@ -93,7 +93,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
               placeholder="e.g. Emma"
             />
           </label>
-          <button onClick={handleSave}>저장 / Save</button>
+          <button className="btn-primary" onClick={handleSave}>저장 / Save</button>
         </div>
       )}
     </div>
