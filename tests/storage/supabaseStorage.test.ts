@@ -49,8 +49,9 @@ describe('SupabaseStorageAdapter', () => {
     expect(upload).toHaveBeenCalledWith(path, expect.any(File))
   })
   it('readReceiptUrl returns a signed url', async () => {
-    const { client } = mockClient()
+    const { client, createSignedUrl } = mockClient()
     const a = createSupabaseStorage(client)
     expect(await a.readReceiptUrl('user-1/r.jpg')).toBe('https://signed/x')
+    expect(createSignedUrl).toHaveBeenCalledWith('user-1/r.jpg', 3600)
   })
 })
