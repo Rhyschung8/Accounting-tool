@@ -30,8 +30,8 @@ export function computeNudges(figures: FilingFigures, settings: Settings, rates:
     out.push({
       id: 'state_pension',
       titleKo: '국가연금 — 자발적 납부를 고려하세요', titleEn: 'State Pension — consider voluntary contributions',
-      bodyKo: `이익이 소액이익 기준보다 낮으면 국민보험 크레딧이 자동으로 쌓이지 않아요. 자발적 Class 2 납부(주당 약 ${weeklyRate})로 그 해를 국가연금 가입 기간으로 인정받을 수 있어요.`,
-      bodyEn: `Your profit is below the small profits threshold, so you do not get an automatic National Insurance credit. Paying voluntary Class 2 contributions (about ${weeklyRate} a week) keeps this year counting towards your State Pension.`,
+      bodyKo: `이익이 소액이익 기준보다 낮으면 국민보험 크레딧이 자동으로 쌓이지 않아요. 이건 순전히 선택 사항이에요 — 내지 않아도 벌금을 물거나 빚을 지지 않고, 이 해가 국가연금 가입 기간으로 인정되지 않을 뿐이에요. 인정받고 싶다면 자기신고서에서 자발적 Class 2 납부(주당 약 ${weeklyRate})를 선택할 수 있어요.`,
+      bodyEn: `Your profit is below the small profits threshold, so you do not get an automatic National Insurance credit. This is entirely optional — nothing is owed if you skip it, you simply won't get a State Pension qualifying year for it. If you'd like the year to count, you can choose to pay voluntary Class 2 contributions (about ${weeklyRate} a week) when you file your Self Assessment.`,
       govUkUrl: 'https://www.gov.uk/self-employed-national-insurance-rates',
     })
   }
