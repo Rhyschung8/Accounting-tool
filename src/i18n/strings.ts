@@ -4,6 +4,7 @@ export const strings = {
   whatsLeft: { ko: '남은 돈', en: "What's left" },
   estimatedTax: { ko: '예상 세금', en: 'Estimated tax' },
   estimateCaveat: { ko: '추정치입니다 — 최종 세금이 아닙니다.', en: 'This is an estimate to help you plan — not your final bill.' },
+  noTaxNeeded: { ko: '이번 해는 낼 세금이 없어요', en: 'No tax needed this year' },
   gotPaid: { ko: '돈 받았어요', en: 'I got paid' },
   boughtSomething: { ko: '뭔가 샀어요', en: 'I bought something' },
   drove: { ko: '레슨하러 운전했어요', en: 'I drove to a lesson' },
