@@ -71,7 +71,14 @@ export function SummaryPanel({ taxYear }: { taxYear: string }) {
           </span>
           <p className="tax-line__caveat">{strings.estimateCaveat.ko} / {strings.estimateCaveat.en}</p>
         </div>
-        <MoneyDisplay pence={s.estimate.totalPence} />
+        {!s.estimate.isLoss && s.estimate.totalPence === 0 ? (
+          <span className="tax-line__no-tax">
+            <span className="lang-ko">{strings.noTaxNeeded.ko}</span>
+            <span className="lang-en">{strings.noTaxNeeded.en}</span>
+          </span>
+        ) : (
+          <MoneyDisplay pence={s.estimate.totalPence} />
+        )}
       </div>
     </>
   )

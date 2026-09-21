@@ -1802,6 +1802,14 @@ button[class=""] ,
   margin: 4px 0 0;
 }
 
+.tax-line__no-tax {
+  text-align: right;
+}
+
+.tax-line__no-tax .lang-ko {
+  font-weight: 700;
+}
+
 /* Section title */
 .section-title {
   font-size: 1.2rem;

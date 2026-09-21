@@ -19,4 +19,17 @@ describe('SummaryPanel', () => {
     expect(screen.getAllByText('£30.00').length).toBeGreaterThan(0)
     expect(screen.getByText(/estimate to help you plan/i)).toBeInTheDocument()
   })
+
+  it('shows "no tax needed" instead of £0.00 when profit is under the personal allowance', async () => {
+    await renderWithData()
+    expect(screen.getByText('No tax needed this year')).toBeInTheDocument()
+  })
+
+  it('shows the actual estimated tax figure once profit is taxable', async () => {
+    const store = createStore(createMemoryStorage())
+    await store.init()
+    await store.addEntry({ date: '2025-09-01', type: 'income', amountPence: 2_000_000, description: 'Emma', category: 'income' })
+    render(<StoreProvider store={store}><SummaryPanel taxYear="2025/26" /></StoreProvider>)
+    expect(screen.queryByText('No tax needed this year')).not.toBeInTheDocument()
+  })
 })
