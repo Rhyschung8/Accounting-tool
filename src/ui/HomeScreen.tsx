@@ -1,5 +1,5 @@
 // src/ui/HomeScreen.tsx
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { useStore } from '../state/useStore'
 import { currentTaxYear, formatTaxYear } from '../domain/taxYear'
@@ -89,8 +89,16 @@ export function HomeScreen() {
   const [taxYear, setTaxYear] = useState<string>(currentTaxYear)
   const [activeForm, setActiveForm] = useState<ActiveForm>(null)
   const [activeView, setActiveView] = useState<ActiveView>('home')
+  const [toast, setToast] = useState<string | null>(null)
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const availableYears = Object.keys(TAX_YEARS).sort().reverse()
+
+  useEffect(() => {
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current)
+    }
+  }, [])
 
   function handleExportCsv() {
     const csv = toCsv(state.entries, taxYear)
@@ -105,6 +113,13 @@ export function HomeScreen() {
 
   function closeForm() {
     setActiveForm(null)
+  }
+
+  function handleSaved() {
+    setActiveForm(null)
+    setToast('저장했어요 / Saved')
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+    toastTimer.current = setTimeout(() => setToast(null), 2500)
   }
 
   function renderMainContent() {
@@ -228,11 +243,17 @@ export function HomeScreen() {
           <div className="modal-content">
             <button className="modal-close" onClick={closeForm} aria-label="닫기 / Close">✕</button>
             {activeForm && <PageHelp content={PAGE_HELP[activeForm]} variant="modal" />}
-            {activeForm === 'gotPaid' && <GotPaidForm onDone={closeForm} />}
-            {activeForm === 'boughtSomething' && <BoughtSomethingForm onDone={closeForm} />}
-            {activeForm === 'drove' && <DroveToLessonForm onDone={closeForm} />}
-            {activeForm === 'workedFromHome' && <WorkedFromHomeForm onDone={closeForm} />}
+            {activeForm === 'gotPaid' && <GotPaidForm onDone={handleSaved} />}
+            {activeForm === 'boughtSomething' && <BoughtSomethingForm onDone={handleSaved} />}
+            {activeForm === 'drove' && <DroveToLessonForm onDone={handleSaved} />}
+            {activeForm === 'workedFromHome' && <WorkedFromHomeForm onDone={handleSaved} />}
           </div>
+        </div>
+      )}
+
+      {toast && (
+        <div className="save-toast" role="status" aria-live="polite">
+          {toast}
         </div>
       )}
     </div>

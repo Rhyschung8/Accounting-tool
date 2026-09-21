@@ -11,6 +11,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
   const [amount, setAmount] = useState('')
   const [name, setName] = useState('')
   const [amountError, setAmountError] = useState('')
+  const [busy, setBusy] = useState(false)
 
   // Derive repeat-payer list: deduped by description, most recent amount
   const payers = useMemo(() => {
@@ -26,6 +27,8 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
   }, [state.entries])
 
   async function addRepeat(description: string, amountPence: number) {
+    if (busy) return
+    setBusy(true)
     await addEntry({
       date: new Date().toISOString().slice(0, 10),
       type: 'income',
@@ -37,12 +40,14 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
   }
 
   async function handleSave() {
+    if (busy) return
     const pence = parsePence(amount)
     if (pence === null) {
       setAmountError('금액을 입력해 주세요 / Please enter a valid amount')
       return
     }
     setAmountError('')
+    setBusy(true)
     await addEntry({
       date,
       type: 'income',
@@ -56,7 +61,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
   return (
     <div>
       {payers.map(([desc, pence]) => (
-        <button key={desc} className="payer-chip" onClick={() => addRepeat(desc, pence)}>
+        <button key={desc} className="payer-chip" disabled={busy} onClick={() => addRepeat(desc, pence)}>
           {desc} — <MoneyDisplay pence={pence} />
         </button>
       ))}
@@ -93,7 +98,7 @@ export function GotPaidForm({ onDone }: { onDone: () => void }) {
               placeholder="e.g. Emma"
             />
           </label>
-          <button className="btn-primary" onClick={handleSave}>저장 / Save</button>
+          <button className="btn-primary" disabled={busy} onClick={handleSave}>저장 / Save</button>
         </div>
       )}
     </div>

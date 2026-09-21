@@ -11,6 +11,7 @@ import { EditEntry } from './EditEntry'
 import type { Entry } from '../domain/entry'
 
 function getCategoryLabel(key: string): string {
+  if (key === 'income') return '수입 / Income'
   const cat = CATEGORIES.find(c => c.key === key)
   return cat ? `${cat.labelKo} / ${cat.labelEn}` : key
 }
