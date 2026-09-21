@@ -16,6 +16,7 @@ import { BoughtSomethingForm } from './forms/BoughtSomethingForm'
 import { DroveToLessonForm } from './forms/DroveToLessonForm'
 import { WorkedFromHomeForm } from './forms/WorkedFromHomeForm'
 import { NudgesPanel } from './NudgesPanel'
+import { FilingDeadlineReminder } from './FilingDeadlineReminder'
 import { YearEndScreen } from './YearEndScreen'
 import { GoodToKnow } from './GoodToKnow'
 import { HowToUse } from './HowToUse'
@@ -168,6 +169,8 @@ export function HomeScreen() {
         <PageHelp content={PAGE_HELP.home} />
 
         <SummaryPanel taxYear={taxYear} />
+
+        <FilingDeadlineReminder />
 
         <NudgesPanel taxYear={currentTaxYear()} />
 
