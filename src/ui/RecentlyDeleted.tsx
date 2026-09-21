@@ -1,6 +1,8 @@
 // src/ui/RecentlyDeleted.tsx
 import { useStore } from '../state/useStore'
 import { MoneyDisplay } from './components/MoneyDisplay'
+import { PageHelp } from './components/PageHelp'
+import { PAGE_HELP } from '../config/pageHelp'
 
 export function RecentlyDeleted() {
   const { state, restore } = useStore()
@@ -8,11 +10,17 @@ export function RecentlyDeleted() {
   const deleted = state.entries.filter(e => e.deletedAt)
 
   if (deleted.length === 0) {
-    return <p>삭제된 항목 없음 / No deleted entries</p>
+    return (
+      <div className="recently-deleted">
+        <PageHelp content={PAGE_HELP.deleted} />
+        <p>삭제된 항목 없음 / No deleted entries</p>
+      </div>
+    )
   }
 
   return (
     <div className="recently-deleted">
+      <PageHelp content={PAGE_HELP.deleted} />
       <ul>
         {deleted.map(entry => (
           <li key={entry.id} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>

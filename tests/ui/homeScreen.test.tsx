@@ -42,6 +42,19 @@ describe('HomeScreen', () => {
     expect(screen.getByText(/Settings/)).toBeInTheDocument()
   })
 
+  it('shows a nav link to How to use, and a help icon on the home page', async () => {
+    await renderHomeScreen()
+    expect(screen.getByText(/How to use/)).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /help|도움말/i })).toBeInTheDocument()
+  })
+
+  it('navigates to the How to use page from the sidebar', async () => {
+    await renderHomeScreen()
+    const link = screen.getByText(/How to use/)
+    await act(async () => { link.click() })
+    expect(screen.getByRole('heading', { name: /How to use/i })).toBeInTheDocument()
+  })
+
   it('opens the GotPaid form in a modal and closes on done', async () => {
     await renderHomeScreen()
     const btn = screen.getByText(/I got paid/)

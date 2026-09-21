@@ -8,6 +8,8 @@ import { writeBackup } from '../storage/backup'
 import type { Settings as SettingsType } from '../storage/storage'
 import { CLOUD_MODE, getSupabase } from '../config/supabase'
 import { signOut } from '../auth/session'
+import { PageHelp } from './components/PageHelp'
+import { PAGE_HELP } from '../config/pageHelp'
 
 const TEXT_SIZE_OPTIONS: { value: SettingsType['textSize']; label: string }[] = [
   { value: 'normal', label: '보통 / Normal' },
@@ -79,6 +81,7 @@ export function Settings() {
 
   return (
     <div className="settings-screen">
+      <PageHelp content={PAGE_HELP.settings} />
       <h2>설정 / Settings</h2>
 
       {/* Text size */}

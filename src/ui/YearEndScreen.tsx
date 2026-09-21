@@ -8,6 +8,8 @@ import { MoneyDisplay } from './components/MoneyDisplay'
 import { NudgesPanel } from './NudgesPanel'
 import { BeforeYouFile } from './BeforeYouFile'
 import { FilingWalkthrough } from './FilingWalkthrough'
+import { PageHelp } from './components/PageHelp'
+import { PAGE_HELP } from '../config/pageHelp'
 
 export function YearEndScreen() {
   const { state } = useStore()
@@ -18,6 +20,7 @@ export function YearEndScreen() {
 
   return (
     <div className="year-end-screen">
+      <PageHelp content={PAGE_HELP.yearEnd} />
       <h1>연말 정산 / Year-end &amp; filing</h1>
 
       {/* Tax-year selector */}

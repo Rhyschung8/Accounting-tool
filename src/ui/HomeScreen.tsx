@@ -18,12 +18,16 @@ import { WorkedFromHomeForm } from './forms/WorkedFromHomeForm'
 import { NudgesPanel } from './NudgesPanel'
 import { YearEndScreen } from './YearEndScreen'
 import { GoodToKnow } from './GoodToKnow'
+import { HowToUse } from './HowToUse'
+import { PageHelp } from './components/PageHelp'
+import { PAGE_HELP } from '../config/pageHelp'
 import {
   IconPiano,
   IconHomeNav,
   IconEntries,
   IconYearEnd,
   IconGoodToKnow,
+  IconHelp,
   IconTrash,
   IconSettings,
   IconPaid,
@@ -33,7 +37,7 @@ import {
 } from './components/icons'
 
 type ActiveForm = 'gotPaid' | 'boughtSomething' | 'drove' | 'workedFromHome' | null
-type ActiveView = 'home' | 'entries' | 'deleted' | 'settings' | 'yearEnd' | 'goodToKnow'
+type ActiveView = 'home' | 'entries' | 'deleted' | 'settings' | 'yearEnd' | 'goodToKnow' | 'howToUse'
 
 interface NavItem {
   view: ActiveView
@@ -47,6 +51,7 @@ const NAV_ITEMS: NavItem[] = [
   { view: 'entries',    icon: <IconEntries size={22} />,     ko: '전체 내역',  en: 'All entries' },
   { view: 'yearEnd',    icon: <IconYearEnd size={22} />,     ko: '연말 정산',  en: 'Year-end & filing' },
   { view: 'goodToKnow', icon: <IconGoodToKnow size={22} />,  ko: '알아두기',   en: 'Good to know' },
+  { view: 'howToUse',   icon: <IconHelp size={22} />,        ko: '사용법',     en: 'How to use' },
 ]
 
 const FOOT_ITEMS: NavItem[] = [
@@ -114,6 +119,8 @@ export function HomeScreen() {
         return <YearEndScreen />
       case 'goodToKnow':
         return <GoodToKnow />
+      case 'howToUse':
+        return <HowToUse />
       default:
         return renderHome()
     }
@@ -142,6 +149,8 @@ export function HomeScreen() {
             </button>
           </div>
         </header>
+
+        <PageHelp content={PAGE_HELP.home} />
 
         <SummaryPanel taxYear={taxYear} />
 
@@ -218,6 +227,7 @@ export function HomeScreen() {
         <div className="modal-overlay" role="dialog" aria-modal="true">
           <div className="modal-content">
             <button className="modal-close" onClick={closeForm} aria-label="닫기 / Close">✕</button>
+            {activeForm && <PageHelp content={PAGE_HELP[activeForm]} variant="modal" />}
             {activeForm === 'gotPaid' && <GotPaidForm onDone={closeForm} />}
             {activeForm === 'boughtSomething' && <BoughtSomethingForm onDone={closeForm} />}
             {activeForm === 'drove' && <DroveToLessonForm onDone={closeForm} />}

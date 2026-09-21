@@ -1179,6 +1179,96 @@ button[class=""] ,
   padding-left: 0.5rem;
 }
 
+/* ─── Page help (floating "?" guide, per page/form) ────── */
+.page-help {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 90;
+}
+
+.page-help--modal {
+  position: absolute;
+  top: 1rem;
+  right: 4.5rem; /* clears .modal-close, which sits at top:1rem;right:1rem */
+}
+
+.page-help__trigger {
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+  border-radius: 50%;
+  border: 1.5px solid var(--colour-border);
+  background: var(--colour-surface);
+  color: var(--colour-accent-dark);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.page-help__trigger:hover {
+  background: #E6EDE8;
+}
+
+.page-help__trigger:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+}
+
+.page-help__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--tap-min) + 0.5rem);
+  width: min(320px, calc(100vw - 2 * var(--space-5)));
+  background: var(--colour-surface);
+  border: 1.5px solid var(--colour-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+}
+
+.page-help--modal .page-help__panel {
+  top: calc(var(--tap-min) + 0.5rem);
+  bottom: auto;
+}
+
+.page-help__panel h3 {
+  font-size: var(--fs-body);
+  margin-bottom: 0.4rem;
+  padding-right: 1.75rem; /* clear the close button */
+}
+
+.page-help__panel p {
+  font-size: var(--fs-sub);
+  line-height: 1.6;
+  color: var(--colour-muted);
+  margin-top: 0.4rem;
+}
+
+.page-help__close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  min-height: 28px;
+  min-width: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--colour-muted);
+  cursor: pointer;
+}
+
+.page-help__close:hover {
+  background: #E6EDE8;
+}
+
+.page-help__close:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+}
+
 /* ─── Recently-deleted screen ───────────────────────────── */
 .recently-deleted ul {
   list-style: none;
@@ -1580,7 +1670,8 @@ button[class=""] ,
   .nudges,
   .welcome-hint,
   .sidebar,
-  .page-head__actions {
+  .page-head__actions,
+  .page-help {
     display: none !important;
   }
 
