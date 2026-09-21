@@ -519,6 +519,7 @@ a:focus-visible {
 
 /* ─── Nudges panel (M2) ─────────────────────────────────── */
 .nudges {
+  margin-top: var(--space-6);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -558,6 +559,7 @@ a:focus-visible {
 
 /* ─── Filing deadline reminder ──────────────────────────── */
 .deadline-reminder {
+  margin-top: var(--space-6);
   background: var(--colour-surface);
   border-left: 4px solid var(--colour-accent);
   border-radius: 0 var(--radius-card) var(--radius-card) 0;
@@ -1865,6 +1867,22 @@ button[class=""] ,
 
   .stat-cards {
     grid-template-columns: 1fr;
+  }
+
+  /* 4 columns squeezes each tile so narrow that the Korean labels
+     ("레슨하러 운전했어요" etc.) wrap one syllable per line instead of by
+     word — back down to 2 columns, same as the pre-sidebar-redesign default. */
+  .main .action-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Side by side, the select and the bilingual "CSV 내보내기 / Export"
+     label don't have room to stay on one line each — stack them instead
+     of letting the button wrap into 3 cramped lines. */
+  .page-head__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
   }
 }
 
