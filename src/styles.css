@@ -403,8 +403,12 @@ a:focus-visible {
 }
 
 /* ─── Modal form internals (H4) ────────────────────────── */
+/* Descendant (not child) combinator — forms like DroveToLessonForm and
+   GotPaidForm wrap their "new entry" fields in a nested div one level
+   deeper than the outer div, and it still needs the same column/gap
+   treatment or its fields and Save button end up flush against each other. */
 .modal-content form,
-.modal-content > div {
+.modal-content div {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -732,9 +736,10 @@ button[class=""] ,
 }
 
 /* Extra breathing room above the Save button specifically, on top of the
-   uniform field gap — it's an action, not another field. */
+   uniform field gap — it's an action, not another field. Same descendant
+   combinator as above, so this reaches Save buttons at any nesting depth. */
 .modal-content form .btn-primary,
-.modal-content > div > .btn-primary {
+.modal-content div .btn-primary {
   margin-top: var(--space-2);
 }
 
