@@ -1596,14 +1596,40 @@ button[class=""] ,
 
   .sidebar {
     flex-direction: row;
+    align-items: center;
     overflow-x: auto;
     border-right: none;
     border-bottom: 1px solid var(--colour-border);
   }
 
+  .sidebar__brand {
+    flex-shrink: 0;
+    padding: 6px 10px;
+  }
+
+  .sidebar nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sidebar__label {
+    display: none;
+  }
+
+  .sidebar__item {
+    width: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
   .sidebar__foot {
+    display: flex;
     margin-top: 0;
     border-top: none;
+    padding-top: 0;
   }
 
   .stat-cards {
