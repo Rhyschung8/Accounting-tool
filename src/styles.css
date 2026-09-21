@@ -500,10 +500,17 @@ a:focus-visible {
   line-height: 1.45;
 }
 
-/* Loss shown calm — not red */
+/* Loss shown calm — not red. Overrides .stat-card__num's nowrap/ellipsis/
+   large font sizing, which is meant for the short tabular number this
+   card normally shows, not this full sentence. */
 .summary__loss {
+  display: block;
   color: var(--colour-muted);
   font-weight: 500;
+  font-size: var(--fs-sub);
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 /* ─── Nudges panel (M2) ─────────────────────────────────── */
