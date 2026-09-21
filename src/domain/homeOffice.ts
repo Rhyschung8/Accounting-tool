@@ -30,7 +30,7 @@ export function generateHomeOfficeMonths(
       date,
       type: 'home_office',
       amountPence: bandPence,
-      description: 'Working from home / 재택근무',
+      description: '재택근무 / Working from home',
       category: 'home_office',
       source: 'auto',
       details: { month: monthKey, hoursPerWeek, bandPence },
