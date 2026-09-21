@@ -16,8 +16,10 @@ export function PageHelp({
 }) {
   const [open, setOpen] = useState(false)
 
+  const openModalClass = variant === 'modal' && open ? ' page-help--open' : ''
+
   return (
-    <div className={`page-help page-help--${variant}`}>
+    <div className={`page-help page-help--${variant}${openModalClass}`}>
       <button
         type="button"
         className="page-help__trigger"

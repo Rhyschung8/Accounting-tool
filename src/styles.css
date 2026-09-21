@@ -35,8 +35,9 @@
   --font-size-base:  18px;
   --font-size-lg:    1.25rem;
   --font-size-xl:    1.5rem;
-  --font-stack:      'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic',
-                     system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-stack:      'Noto Sans KR', 'Pretendard', 'Apple SD Gothic Neo',
+                     'Malgun Gothic', system-ui, -apple-system, 'Segoe UI',
+                     Roboto, sans-serif;
 
   /* Named type-scale tokens */
   --fs-caption:      0.78rem;   /* caveats, dates */
@@ -164,6 +165,12 @@ a:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+.signin__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 /* ─── Year selector ─────────────────────────────────────── */
@@ -1232,6 +1239,27 @@ button[class=""] ,
 .page-help--modal .page-help__panel {
   top: calc(var(--tap-min) + 0.5rem);
   bottom: auto;
+}
+
+/* While open, the modal-variant panel joins normal document flow
+   instead of floating over the form — it pushes the fields down and
+   relies on .modal-content's existing scroll, rather than clipping
+   its own text in a small floating box. */
+.page-help--modal.page-help--open {
+  position: static;
+  margin-bottom: var(--space-4);
+}
+
+.page-help--modal.page-help--open .page-help__trigger {
+  align-self: flex-start;
+}
+
+.page-help--modal.page-help--open .page-help__panel {
+  position: relative;
+  top: auto;
+  right: auto;
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
 .page-help__panel h3 {
