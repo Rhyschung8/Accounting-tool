@@ -1,9 +1,20 @@
+import { CATEGORIES } from './categories'
+
 export interface PageHelpContent {
   titleKo: string
   titleEn: string
   bodyKo: string
   bodyEn: string
 }
+
+// Built from CATEGORIES so the help text can't drift out of sync with the
+// category dropdown or the "Good to know" examples section.
+const categoryExamplesKo = CATEGORIES.filter(c => c.key !== 'uncategorised')
+  .map(c => `${c.labelKo}(${c.examplesKo.slice(0, 2).join(', ')} 등)`)
+  .join(', ')
+const categoryExamplesEn = CATEGORIES.filter(c => c.key !== 'uncategorised')
+  .map(c => `${c.labelEn} (e.g. ${c.examplesEn.slice(0, 2).join(', ')})`)
+  .join(', ')
 
 /**
  * Per-page/per-form "how to use this" content, shown via the PageHelp
@@ -72,10 +83,12 @@ export const PAGE_HELP: Record<string, PageHelpContent> = {
     titleEn: "Using 'I bought something'",
     bodyKo:
       '무엇을 샀는지 적으면 알맞은 분류를 자동으로 제안해 드려요. 필요하면 분류를 직접 바꿀 수 있어요. ' +
-      "금액이 크면 '업무 사용 비율'을 선택해서 업무용으로 쓴 부분만 비용으로 처리할 수 있어요.",
+      "금액이 크면 '업무 사용 비율'을 선택해서 업무용으로 쓴 부분만 비용으로 처리할 수 있어요. " +
+      `분류 예시 — ${categoryExamplesKo}.`,
     bodyEn:
       "Describe what you bought and we'll suggest a category automatically — you can change it if needed. For " +
-      "larger purchases, choose how much of it was for business use, so only that share counts as an expense.",
+      "larger purchases, choose how much of it was for business use, so only that share counts as an expense. " +
+      `Category examples — ${categoryExamplesEn}.`,
   },
   drove: {
     titleKo: "'레슨 장소로 운전했어요' 사용법",

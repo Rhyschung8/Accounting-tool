@@ -1183,7 +1183,8 @@ button[class=""] ,
   font-style: italic;
 }
 
-.glossary {
+.glossary,
+.category-examples {
   background: var(--colour-surface);
   border: 1.5px solid var(--colour-border);
   border-radius: var(--radius-card);
@@ -1191,23 +1192,39 @@ button[class=""] ,
   padding: 1.25rem 1.5rem;
 }
 
-.glossary h3 {
+.glossary h3,
+.category-examples h3 {
   font-size: 1em;
   font-weight: 700;
   margin-bottom: 0.75rem;
 }
 
-.glossary dl {
+.category-examples__intro {
+  font-size: 0.9em;
+  color: var(--colour-muted);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.category-examples__intro .lang-ko,
+.category-examples__intro .lang-en {
+  display: block;
+}
+
+.glossary dl,
+.category-examples dl {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.glossary dt {
+.glossary dt,
+.category-examples dt {
   font-weight: 600;
 }
 
-.glossary dd {
+.glossary dd,
+.category-examples dd {
   font-size: 0.9em;
   color: var(--colour-muted);
   line-height: 1.5;
@@ -1794,6 +1811,7 @@ button[class=""] ,
   .before-you-file,
   .filing-step,
   .glossary,
+  .category-examples,
   .topics details {
     border: 1px solid #ccc;
     box-shadow: none;
