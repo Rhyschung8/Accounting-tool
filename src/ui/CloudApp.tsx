@@ -9,7 +9,7 @@ import { getSessionUserId, onAuthChange } from '../auth/session'
 import { SignIn } from './SignIn'
 import { App } from '../App'
 
-type State = 'loading' | 'signedOut' | 'ready'
+type State = 'loading' | 'signedOut' | 'ready' | 'error'
 
 export function CloudApp({ client }: { client: SupabaseClient }) {
   const [state, setState] = useState<State>('loading')
@@ -18,15 +18,20 @@ export function CloudApp({ client }: { client: SupabaseClient }) {
 
   async function boot() {
     const id = ++bootId.current
-    const uid = await getSessionUserId(client)
-    if (id !== bootId.current) return
-    if (!uid) { setState('signedOut'); return }
-    if (id !== bootId.current) return
-    const s = createStore(createSupabaseStorage(client))
-    if (id !== bootId.current) return
-    // P4-R2: do NOT call s.init() here — App's useEffect does it
-    setStore(s)
-    setState('ready')
+    try {
+      const uid = await getSessionUserId(client)
+      if (id !== bootId.current) return
+      if (!uid) { setState('signedOut'); return }
+      if (id !== bootId.current) return
+      const s = createStore(createSupabaseStorage(client))
+      if (id !== bootId.current) return
+      // P4-R2: do NOT call s.init() here — App's useEffect does it
+      setStore(s)
+      setState('ready')
+    } catch {
+      if (id !== bootId.current) return
+      setState('error')
+    }
   }
 
   useEffect(() => {
@@ -37,6 +42,12 @@ export function CloudApp({ client }: { client: SupabaseClient }) {
   }, [])
 
   if (state === 'loading') return <div className="app-shell" aria-busy="true" />
+  if (state === 'error') return (
+    <div className="app-shell signin">
+      <p className="signin__note">인터넷 연결이 필요해요 / You need to be online to use this.</p>
+      <button className="btn-primary" onClick={() => { setState('loading'); boot() }}>다시 시도 / Try again</button>
+    </div>
+  )
   if (state === 'signedOut' || !store) return <SignIn client={client} onSignedIn={boot} />
   return <App store={store} cloud />
 }

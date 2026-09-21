@@ -3,6 +3,17 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import { CloudApp } from '../../src/ui/CloudApp'
 
+function offlineClient() {
+  return {
+    auth: {
+      getUser: vi.fn().mockRejectedValue(new Error('network')),
+      onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })),
+    },
+    from: vi.fn(),
+    storage: { from: vi.fn() },
+  } as any
+}
+
 function client(signedIn: boolean) {
   return {
     auth: {
@@ -23,5 +34,9 @@ describe('CloudApp gate', () => {
   it('shows the app (a home action button) when signed in', async () => {
     render(<CloudApp client={client(true)} />)
     await waitFor(() => expect(screen.getByText(/I got paid/)).toBeInTheDocument())
+  })
+  it('shows the online-required message when the session check fails (offline)', async () => {
+    render(<CloudApp client={offlineClient()} />)
+    await waitFor(() => expect(screen.getByText(/need to be online/i)).toBeInTheDocument())
   })
 })

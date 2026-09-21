@@ -85,7 +85,7 @@ export function App({ store, dirHandle, onFolderPicked, cloud }: AppProps) {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
-    store.init().then(() => setInitialized(true))
+    store.init().then(() => setInitialized(true)).catch(() => setInitialized(true))
   }, [store])
 
   if (!initialized) return null
