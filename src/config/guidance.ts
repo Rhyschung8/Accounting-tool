@@ -122,7 +122,7 @@ export const GLOSSARY: GlossaryEntry[] = [
   {
     termKo: '4종 국민보험료',
     termEn: 'Class 4',
-    meaningKo: '연간 이익이 일정 기준을 넘는 자영업자가 납부하는 국민보험료(NIC)입니다. 소득세와 함께 1월 31일까지 납부합니다.',
-    meaningEn: 'A type of National Insurance Contribution (NIC) paid by self-employed people whose annual profit exceeds a threshold. It is paid alongside income tax by the 31 January deadline.',
+    meaningKo: '연간 이익이 일정 기준(2025/26년 기준 £12,570)을 넘는 자영업자가 납부하는 국민보험료(NIC)입니다. 직접 계산하거나 신청할 필요는 없습니다 — HMRC가 자기신고서의 이익을 바탕으로 자동으로 계산해서 소득세와 함께 1월 31일까지 청구합니다. 이익이 기준보다 낮으면 이 항목은 £0입니다.',
+    meaningEn: 'A type of National Insurance Contribution (NIC) paid by self-employed people whose annual profit exceeds a threshold (£12,570 for 2025/26). You don’t need to work it out or apply for it — HMRC calculates it automatically from the profit on your Self Assessment and bills it alongside income tax by 31 January. If your profit is below the threshold, this is simply £0.',
   },
 ]
