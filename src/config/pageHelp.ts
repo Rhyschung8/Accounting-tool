@@ -1,4 +1,6 @@
 import { CATEGORIES } from './categories'
+import { getRates } from './taxYears'
+import { currentTaxYear } from '../domain/taxYear'
 
 export interface PageHelpContent {
   titleKo: string
@@ -15,6 +17,11 @@ const categoryExamplesKo = CATEGORIES.filter(c => c.key !== 'uncategorised')
 const categoryExamplesEn = CATEGORIES.filter(c => c.key !== 'uncategorised')
   .map(c => `${c.labelEn} (e.g. ${c.examplesEn.slice(0, 2).join(', ')})`)
   .join(', ')
+
+// Pulled from the live rates table so the mileage figures in the help text
+// can't drift out of sync with what the app actually calculates.
+const mileageRates = getRates(currentTaxYear())
+const mileageThresholdStr = mileageRates.mileageThresholdMiles.toLocaleString('en-GB')
 
 /**
  * Per-page/per-form "how to use this" content, shown via the PageHelp
@@ -84,21 +91,29 @@ export const PAGE_HELP: Record<string, PageHelpContent> = {
     bodyKo:
       '무엇을 샀는지 적으면 알맞은 분류를 자동으로 제안해 드려요. 필요하면 분류를 직접 바꿀 수 있어요. ' +
       "금액이 크면 '업무 사용 비율'을 선택해서 업무용으로 쓴 부분만 비용으로 처리할 수 있어요. " +
-      `분류 예시 — ${categoryExamplesKo}.`,
+      `분류 예시 — ${categoryExamplesKo}. ` +
+      '기름값은 이미 운전 기록(마일리지)에 포함되어 있기 때문에 여기서는 따로 기록하지 않아도 돼요.',
     bodyEn:
       "Describe what you bought and we'll suggest a category automatically — you can change it if needed. For " +
       "larger purchases, choose how much of it was for business use, so only that share counts as an expense. " +
-      `Category examples — ${categoryExamplesEn}.`,
+      `Category examples — ${categoryExamplesEn}. ` +
+      "Fuel costs are already covered by your mileage records, so you don't need to log petrol purchases here separately.",
   },
   drove: {
     titleKo: "'레슨 장소로 운전했어요' 사용법",
     titleEn: "Using 'I drove to a lesson'",
     bodyKo:
       "예전에 갔던 장소를 누르면 같은 거리로 바로 기록돼요. 새로운 장소면 '새 장소'를 눌러서 목적지와 거리(마일)를 " +
-      '입력해 주세요. 금액은 자동으로 계산돼요.',
+      '입력해 주세요. 금액은 자동으로 계산돼요. ' +
+      `올해는 첫 ${mileageThresholdStr}마일까지 마일당 ${mileageRates.mileageHigherPencePerMile}p, 그 이후는 마일당 ` +
+      `${mileageRates.mileageLowerPencePerMile}p로 계산돼요. 이 금액에는 기름값과 차량 유지비가 이미 포함되어 있어서, ` +
+      '기름을 살 때는 따로 기록하지 않아도 돼요.',
     bodyEn:
       "Tap a place you've driven to before to log the same distance again. For somewhere new, tap 'Somewhere new' " +
-      "and enter the destination and distance in miles — the amount is worked out for you automatically.",
+      "and enter the destination and distance in miles — the amount is worked out for you automatically. " +
+      `This tax year the rate is ${mileageRates.mileageHigherPencePerMile}p per mile for the first ` +
+      `${mileageThresholdStr} miles, then ${mileageRates.mileageLowerPencePerMile}p per mile after that. This already ` +
+      "covers fuel and running costs, so you don't need to log petrol separately.",
   },
   workedFromHome: {
     titleKo: "'재택근무를 했어요' 사용법",
