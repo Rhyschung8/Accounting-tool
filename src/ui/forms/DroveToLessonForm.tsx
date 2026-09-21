@@ -39,7 +39,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
       date: new Date().toISOString().slice(0, 10),
       type: 'journey',
       amountPence: mileagePence(m, rates, milesAlreadyThisYear),
-      description: `Drove to ${dest} / ${dest} 레슨`,
+      description: `${dest}까지 운전 / Drove to ${dest}`,
       category: 'travel',
       details: { destination: dest, miles: m, ratePence: rates.mileageHigherPencePerMile },
     })

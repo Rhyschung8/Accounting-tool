@@ -6,10 +6,10 @@ import { categorise } from '../../domain/categoriser'
 import { CATEGORIES } from '../../config/categories'
 
 const BUSINESS_USE_OPTIONS = [
-  { label: '수업 전용 / Only teaching', percent: 100 },
-  { label: '대부분 수업용 / Also personal (75% teaching)', percent: 75 },
-  { label: '절반 수업용 / Also personal (50% teaching)', percent: 50 },
-  { label: '일부 수업용 / Also personal (25% teaching)', percent: 25 },
+  { label: '수업 전용 (100%) / Only teaching', percent: 100 },
+  { label: '대부분 수업용 (75%) / Also personal (75% teaching)', percent: 75 },
+  { label: '절반 수업용 (50%) / Also personal (50% teaching)', percent: 50 },
+  { label: '일부 수업용 (25%) / Also personal (25% teaching)', percent: 25 },
 ]
 
 export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {

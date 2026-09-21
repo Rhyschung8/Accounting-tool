@@ -103,7 +103,7 @@ export function BeforeYouFile({ taxYear }: Props) {
               영수증 없는 큰 지출 / Large purchase without receipt —{' '}
               {largePurchasesNoReceipt.length}개 /{' '}
               {largePurchasesNoReceipt.length} {largePurchasesNoReceipt.length === 1 ? 'item' : 'items'}.
-              영수증을 첨부하면 세무조사 시 유리해요 / Attaching receipts helps in case of a tax inquiry.
+              영수증을 첨부해두면 세무조사를 받을 때 유리해요 / Attaching receipts helps in case of a tax inquiry.
             </span>
           )}
         </li>
@@ -119,7 +119,7 @@ export function BeforeYouFile({ taxYear }: Props) {
             <span className="checklist-item__warning">
               <span className="pill pill--warn">⚠</span>{' '}
               재택근무 항목이 없어요 / No home office entry found.
-              집에서 레슨을 하신다면 재택근무 비용을 추가해보세요 /{' '}
+              집에서 레슨을 한다면 재택근무 비용을 추가해보세요 /{' '}
               If you teach from home, consider adding a home office entry.
             </span>
           )}
