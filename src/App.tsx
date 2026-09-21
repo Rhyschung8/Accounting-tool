@@ -12,15 +12,19 @@ interface AppProps {
   dirHandle?: FileSystemDirectoryHandle | null
   /** R13: injected by main.tsx to persist the chosen handle to IDB */
   onFolderPicked?: (handle: FileSystemDirectoryHandle) => void
+  /** P4: when true, skip the folder-pick gate (cloud storage, no local folder needed) */
+  cloud?: boolean
 }
 
 /** Inner shell — must be mounted inside StoreProvider */
 function AppShell({
   dirHandle,
   onFolderPicked,
+  cloud,
 }: {
   dirHandle?: FileSystemDirectoryHandle | null
   onFolderPicked?: (handle: FileSystemDirectoryHandle) => void
+  cloud?: boolean
 }) {
   const { state, setSettings } = useStore()
 
@@ -58,7 +62,8 @@ function AppShell({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!state.settings.folderChosen) {
+  // P4: in cloud mode there is no local folder — skip the FirstRun gate entirely
+  if (!cloud && !state.settings.folderChosen) {
     return (
       <FirstRun
         onComplete={() => { /* folderChosen=true set by FirstRun; store subscription re-renders */ }}
@@ -73,19 +78,24 @@ function AppShell({
 /**
  * App — accepts a store (prop-injected for tests; main.tsx builds the real one).
  * Wraps in StoreProvider, runs store.init(), then shows FirstRun or HomeScreen.
+ * P4: when cloud=true, skips the folder-pick FirstRun gate.
+ * Exported as both default and named so CloudApp can import as { App }.
  */
-export default function App({ store, dirHandle, onFolderPicked }: AppProps) {
+export function App({ store, dirHandle, onFolderPicked, cloud }: AppProps) {
   const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
-    store.init().then(() => setInitialized(true))
+    store.init().then(() => setInitialized(true)).catch(() => setInitialized(true))
   }, [store])
 
   if (!initialized) return null
 
   return (
     <StoreProvider store={store}>
-      <AppShell dirHandle={dirHandle} onFolderPicked={onFolderPicked} />
+      <AppShell dirHandle={dirHandle} onFolderPicked={onFolderPicked} cloud={cloud} />
     </StoreProvider>
   )
 }
+
+export default App
+

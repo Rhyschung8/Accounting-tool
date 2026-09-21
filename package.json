@@ -11,6 +11,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -20,10 +21,10 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4",
+    "@vitest/ui": "^2",
     "jsdom": "^25",
     "typescript": "^5",
     "vite": "^5",
-    "vitest": "^2",
-    "@vitest/ui": "^2"
+    "vitest": "^2"
   }
 }
