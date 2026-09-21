@@ -170,10 +170,6 @@ export function HomeScreen() {
 
         <SummaryPanel taxYear={taxYear} />
 
-        <FilingDeadlineReminder />
-
-        <NudgesPanel taxYear={currentTaxYear()} />
-
         <h2 className="section-title">
           무엇을 할까요? <span className="lang-en">What would you like to do?</span>
         </h2>
@@ -204,6 +200,10 @@ export function HomeScreen() {
             onClick={() => setActiveForm('workedFromHome')}
           />
         </div>
+
+        <FilingDeadlineReminder />
+
+        <NudgesPanel taxYear={currentTaxYear()} />
 
         {/* M4: empty-state welcome hint */}
         {state.entries.filter(e => !e.deletedAt).length === 0 && (
