@@ -574,6 +574,35 @@ a:focus-visible {
   margin-top: 2px;
 }
 
+/* Which tax year this deadline belongs to — the answer matters most, so
+   it's a distinct badge above the countdown rather than plain text. */
+.deadline-reminder__year {
+  display: inline-block;
+  background: #EAF4EE;
+  border-radius: 99px;
+  padding: 1px 10px;
+  margin-bottom: 6px;
+}
+
+.deadline-reminder__year .lang-ko {
+  font-weight: 700;
+  color: var(--colour-accent-dark);
+}
+
+.deadline-reminder__year .lang-en {
+  color: var(--colour-accent-dark);
+  font-weight: 500;
+}
+
+.deadline-reminder--urgent .deadline-reminder__year {
+  background: #FDF3EE;
+}
+
+.deadline-reminder--urgent .deadline-reminder__year .lang-ko,
+.deadline-reminder--urgent .deadline-reminder__year .lang-en {
+  color: #9A4E2C;
+}
+
 .deadline-reminder__count {
   font-size: var(--fs-body);
   font-weight: 600;
