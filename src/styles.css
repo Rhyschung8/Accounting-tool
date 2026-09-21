@@ -552,6 +552,45 @@ a:focus-visible {
   font-weight: 500;
 }
 
+/* ─── Filing deadline reminder ──────────────────────────── */
+.deadline-reminder {
+  background: var(--colour-surface);
+  border-left: 4px solid var(--colour-accent);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.deadline-reminder__icon {
+  flex-shrink: 0;
+  color: var(--colour-accent);
+  margin-top: 2px;
+}
+
+.deadline-reminder__count {
+  font-size: var(--fs-body);
+  font-weight: 600;
+}
+
+.deadline-reminder__date {
+  font-size: var(--fs-sub);
+  color: var(--colour-muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+/* Within 30 days of the deadline — same terracotta treatment as .nudge-card. */
+.deadline-reminder--urgent {
+  border-left-color: var(--colour-warning);
+}
+
+.deadline-reminder--urgent .deadline-reminder__icon {
+  color: var(--colour-warning);
+}
+
 /* ─── Welcome hint (M4) ─────────────────────────────────── */
 .welcome-hint {
   background: #F3F7F2;            /* faint sage tint */
