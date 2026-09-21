@@ -17,7 +17,7 @@ describe('SignIn', () => {
   })
   it('shows an error on bad credentials', async () => {
     render(<SignIn client={client(false)} onSignedIn={() => {}} />)
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'x' } })
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'wrong@example.com' } })
     fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'bad' } })
     fireEvent.click(screen.getByRole('button', { name: /sign in|로그인/i }))
     await waitFor(() => expect(screen.getByRole('alert')).toBeInTheDocument())
