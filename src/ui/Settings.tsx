@@ -6,6 +6,8 @@ import { TAX_YEARS } from '../config/taxYears'
 import { loadDirHandle } from '../storage/handleStore'
 import { writeBackup } from '../storage/backup'
 import type { Settings as SettingsType } from '../storage/storage'
+import { CLOUD_MODE, getSupabase } from '../config/supabase'
+import { signOut } from '../auth/session'
 
 const TEXT_SIZE_OPTIONS: { value: SettingsType['textSize']; label: string }[] = [
   { value: 'normal', label: '보통 / Normal' },
@@ -154,16 +156,32 @@ export function Settings() {
         </label>
       </section>
 
-      {/* Backup */}
-      <section className="settings-section">
-        <button
-          onClick={handleBackup}
-          disabled={typeof window.showDirectoryPicker !== 'function'}
-        >
-          내 기록 백업 / Back up my records
-        </button>
-        {backupDone && <p role="status">백업했어요 / Backed up</p>}
-      </section>
+      {/* Backup — hidden in cloud mode (Supabase handles persistence) */}
+      {!CLOUD_MODE && (
+        <section className="settings-section">
+          <button
+            onClick={handleBackup}
+            disabled={typeof window.showDirectoryPicker !== 'function'}
+          >
+            내 기록 백업 / Back up my records
+          </button>
+          {backupDone && <p role="status">백업했어요 / Backed up</p>}
+        </section>
+      )}
+
+      {/* Sign out — shown only in cloud mode */}
+      {CLOUD_MODE && (
+        <section className="settings-section">
+          <button
+            onClick={async () => {
+              await signOut(getSupabase())
+              location.reload()
+            }}
+          >
+            로그아웃 / Sign out
+          </button>
+        </section>
+      )}
     </div>
   )
 }
