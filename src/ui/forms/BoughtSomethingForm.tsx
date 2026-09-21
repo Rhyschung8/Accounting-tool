@@ -22,6 +22,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
   const [isFuel, setIsFuel] = useState(false)
   const [businessPercent, setBusinessPercent] = useState(100)
   const [amountError, setAmountError] = useState('')
+  const [busy, setBusy] = useState(false)
 
   const amountPence = parsePence(amount) ?? 0
   const isLarge = amountPence > state.settings.largePurchaseThresholdPence
@@ -42,12 +43,14 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
   }, [description, state.learnedMerchants])
 
   async function handleSave() {
+    if (busy) return
     const fullPence = parsePence(amount)
     if (fullPence === null) {
       setAmountError('금액을 입력해 주세요 / Please enter a valid amount')
       return
     }
     setAmountError('')
+    setBusy(true)
 
     const userOverrode = category !== suggestedCategory
     if (userOverrode && description.trim()) {
@@ -142,7 +145,7 @@ export function BoughtSomethingForm({ onDone }: { onDone: () => void }) {
           ))}
         </fieldset>
       )}
-      <button className="btn-primary" onClick={handleSave}>저장 / Save</button>
+      <button className="btn-primary" disabled={busy} onClick={handleSave}>저장 / Save</button>
     </div>
   )
 }

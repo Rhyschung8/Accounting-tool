@@ -57,20 +57,26 @@ export function EditEntry({ entry, onClose }: { entry: Entry; onClose: () => voi
           onChange={e => setDescription(e.target.value)}
         />
       </label>
-      <label>
-        분류 / Category
-        <select
-          aria-label="category"
-          value={category}
-          onChange={e => setCategory(e.target.value)}
-        >
-          {CATEGORIES.map(cat => (
-            <option key={cat.key} value={cat.key}>
-              {cat.labelKo} / {cat.labelEn}
-            </option>
-          ))}
-        </select>
-      </label>
+      {entry.type === 'income' ? (
+        <p className="entry-category-fixed">
+          분류 / Category: 수입 / Income
+        </p>
+      ) : (
+        <label>
+          분류 / Category
+          <select
+            aria-label="category"
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+          >
+            {CATEGORIES.map(cat => (
+              <option key={cat.key} value={cat.key}>
+                {cat.labelKo} / {cat.labelEn}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <div className="edit-entry-actions">
         <button onClick={handleSave}>저장 / Save</button>
         {!deleted && (

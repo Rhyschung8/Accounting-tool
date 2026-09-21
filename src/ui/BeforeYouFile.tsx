@@ -1,6 +1,7 @@
 // src/ui/BeforeYouFile.tsx
 import { useStore } from '../state/useStore'
 import { taxYearOf } from '../domain/taxYear'
+import { IconCheck, IconWarning } from './components/icons'
 
 interface Props { taxYear: string }
 
@@ -60,12 +61,12 @@ export function BeforeYouFile({ taxYear }: Props) {
         <li className="checklist-item">
           {emptyIncomeMonths.length === 0 ? (
             <span className="checklist-item__ok">
-              <span className="pill pill--ok">✓</span>{' '}
+              <span className="pill pill--ok"><IconCheck size={14} /></span>{' '}
               모든 달에 수입이 기록됐어요 / Income recorded every month.
             </span>
           ) : (
             <span className="checklist-item__warning">
-              <span className="pill pill--warn">⚠</span>{' '}
+              <span className="pill pill--warn"><IconWarning size={14} /></span>{' '}
               수입이 없는 달이 있어요 / Months with no income logged:{' '}
               {emptyIncomeMonths.map(m => MONTH_NAMES[m.slice(5)] ?? m).join(', ')}.
               수업이 없었다면 괜찮아요 — 확인만 해두세요.
@@ -78,12 +79,12 @@ export function BeforeYouFile({ taxYear }: Props) {
         <li className="checklist-item">
           {uncategorisedCount === 0 ? (
             <span className="checklist-item__ok">
-              <span className="pill pill--ok">✓</span>{' '}
+              <span className="pill pill--ok"><IconCheck size={14} /></span>{' '}
               미분류 항목 없음 / No uncategorised entries.
             </span>
           ) : (
             <span className="checklist-item__warning">
-              <span className="pill pill--warn">⚠</span>{' '}
+              <span className="pill pill--warn"><IconWarning size={14} /></span>{' '}
               확인 필요 / Needs checking — {uncategorisedCount}개 항목이 아직 분류되지 않았어요 /{' '}
               {uncategorisedCount} {uncategorisedCount === 1 ? 'entry' : 'entries'} still uncategorised.
             </span>
@@ -94,12 +95,12 @@ export function BeforeYouFile({ taxYear }: Props) {
         <li className="checklist-item">
           {largePurchasesNoReceipt.length === 0 ? (
             <span className="checklist-item__ok">
-              <span className="pill pill--ok">✓</span>{' '}
+              <span className="pill pill--ok"><IconCheck size={14} /></span>{' '}
               큰 금액 지출에 모두 영수증이 있어요 / All large purchases have receipts.
             </span>
           ) : (
             <span className="checklist-item__warning">
-              <span className="pill pill--warn">⚠</span>{' '}
+              <span className="pill pill--warn"><IconWarning size={14} /></span>{' '}
               영수증 없는 큰 지출 / Large purchase without receipt —{' '}
               {largePurchasesNoReceipt.length}개 /{' '}
               {largePurchasesNoReceipt.length} {largePurchasesNoReceipt.length === 1 ? 'item' : 'items'}.
@@ -112,12 +113,12 @@ export function BeforeYouFile({ taxYear }: Props) {
         <li className="checklist-item">
           {hasHomeOffice ? (
             <span className="checklist-item__ok">
-              <span className="pill pill--ok">✓</span>{' '}
+              <span className="pill pill--ok"><IconCheck size={14} /></span>{' '}
               재택근무 비용이 기록됐어요 / Home office expenses recorded.
             </span>
           ) : (
             <span className="checklist-item__warning">
-              <span className="pill pill--warn">⚠</span>{' '}
+              <span className="pill pill--warn"><IconWarning size={14} /></span>{' '}
               재택근무 항목이 없어요 / No home office entry found.
               집에서 레슨을 한다면 재택근무 비용을 추가해보세요 /{' '}
               If you teach from home, consider adding a home office entry.

@@ -335,6 +335,21 @@ a:focus-visible {
   padding: var(--space-4);
 }
 
+/* Save confirmation toast — appears after a successful save, auto-dismisses */
+.save-toast {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-6);
+  transform: translateX(-50%);
+  background: var(--colour-accent-dark);
+  color: #FFFFFF;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-btn);
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(46,42,38,0.24);
+  z-index: 110;
+}
+
 /* Mobile: keep sheet-from-bottom feel on narrow screens */
 @media (max-width: 560px) {
   .modal-overlay {
@@ -701,6 +716,19 @@ button[class=""] ,
 .btn-primary:focus-visible {
   outline: 3px solid var(--colour-accent-dark);
   outline-offset: 2px;
+}
+
+.btn-primary:disabled,
+.payer-chip:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Extra breathing room above the Save button specifically, on top of the
+   uniform field gap — it's an action, not another field. */
+.modal-content form .btn-primary,
+.modal-content > div > .btn-primary {
+  margin-top: var(--space-2);
 }
 
 .btn-secondary {
@@ -1358,6 +1386,11 @@ button[class=""] ,
   gap: 0.4rem;
 }
 
+.entry-category-fixed {
+  color: var(--colour-muted);
+  font-size: var(--fs-sub);
+}
+
 .edit-entry-actions {
   display: flex;
   gap: 0.75rem;
@@ -1471,7 +1504,7 @@ button[class=""] ,
 /* Main content area */
 .main {
   padding: 28px 32px 40px;
-  max-width: 1100px;
+  max-width: 1280px;
 }
 
 .page-head {
@@ -1513,9 +1546,18 @@ button[class=""] ,
 /* Stat cards */
 .stat-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   margin-bottom: 12px;
+}
+
+/* Between phone (single column, below) and a wide desktop, 3 fixed-width
+   tabular-number cards squeeze the sidebar+content into overflowing the
+   viewport — drop to 2 columns so each card keeps breathing room. */
+@media (max-width: 1260px) {
+  .stat-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .stat-card {
@@ -1524,6 +1566,7 @@ button[class=""] ,
   border-radius: 16px;
   padding: 18px 20px;
   box-shadow: var(--shadow-card);
+  min-width: 0;
 }
 
 .stat-card__top {
@@ -1562,6 +1605,8 @@ button[class=""] ,
   font-size: 1.9rem;
   color: var(--colour-fg);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .stat-card--hero {

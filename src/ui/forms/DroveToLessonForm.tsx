@@ -11,6 +11,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
   const [isNew, setIsNew] = useState(false)
   const [destination, setDestination] = useState('')
   const [miles, setMiles] = useState('')
+  const [busy, setBusy] = useState(false)
   const rates = getRates(currentTaxYear())
 
   const saved = useMemo(() => {
@@ -35,6 +36,8 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
   const pence = mileagePence(milesNum, rates, milesAlreadyThisYear)
 
   async function add(dest: string, m: number) {
+    if (busy) return
+    setBusy(true)
     await addEntry({
       date: new Date().toISOString().slice(0, 10),
       type: 'journey',
@@ -49,7 +52,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
   return (
     <div>
       {saved.map(([dest, m]) => (
-        <button key={dest} className="payer-chip" onClick={() => add(dest, m)}>
+        <button key={dest} className="payer-chip" disabled={busy} onClick={() => add(dest, m)}>
           {dest} — {m} miles
         </button>
       ))}
@@ -81,7 +84,7 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
               We worked this out for you: <MoneyDisplay pence={pence} />
             </p>
           )}
-          <button className="btn-primary" onClick={() => add(destination, milesNum)}>저장 / Save</button>
+          <button className="btn-primary" disabled={busy} onClick={() => add(destination, milesNum)}>저장 / Save</button>
         </div>
       )}
     </div>

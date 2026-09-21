@@ -233,3 +233,25 @@ export function IconPiano(props: IconProps) {
     </Icon>
   )
 }
+
+/** Check mark — used in status pills instead of the ✓ glyph, which
+ * renders as a missing-glyph box on fonts/devices without symbol coverage. */
+export function IconCheck(props: IconProps) {
+  return (
+    <Icon {...props} strokeWidth="2.25">
+      <polyline points="4 12.5 9.5 18 20 6" />
+    </Icon>
+  )
+}
+
+/** Warning triangle — used in status pills instead of the ⚠ glyph, which
+ * renders as a missing-glyph box on fonts/devices without symbol coverage. */
+export function IconWarning(props: IconProps) {
+  return (
+    <Icon {...props} strokeWidth="2.25">
+      <path d="M12 3.5 L22 20.5 L2 20.5 Z" strokeLinejoin="round" />
+      <line x1="12" y1="9.5" x2="12" y2="14.5" />
+      <circle cx="12" cy="17.5" r="0.6" fill="currentColor" stroke="none" />
+    </Icon>
+  )
+}
