@@ -205,6 +205,17 @@ export function IconTip(props: IconProps) {
   )
 }
 
+/** Help / guide — question mark in a circle */
+export function IconHelp(props: IconProps) {
+  return (
+    <Icon {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.5 9.2 A2.5 2.3 0 1 1 13.3 11.2 Q12 12 12 13.6" />
+      <circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none" />
+    </Icon>
+  )
+}
+
 /** Piano brand — stylised piano keys */
 export function IconPiano(props: IconProps) {
   return (

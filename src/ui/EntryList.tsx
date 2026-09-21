@@ -5,6 +5,8 @@ import { taxYearOf } from '../domain/taxYear'
 import { CATEGORIES } from '../config/categories'
 import { MoneyDisplay } from './components/MoneyDisplay'
 import { IconReceipt } from './components/icons'
+import { PageHelp } from './components/PageHelp'
+import { PAGE_HELP } from '../config/pageHelp'
 import { EditEntry } from './EditEntry'
 import type { Entry } from '../domain/entry'
 
@@ -45,6 +47,7 @@ export function EntryList({ taxYear }: { taxYear: string }) {
 
   return (
     <div className="entry-list">
+      <PageHelp content={PAGE_HELP.entries} />
       {sortedMonths.map(month => (
         <section key={month}>
           <h3>{month}</h3>
