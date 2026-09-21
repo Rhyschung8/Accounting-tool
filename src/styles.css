@@ -1121,6 +1121,67 @@ button[class=""] ,
   line-height: 1.5;
 }
 
+/* Collapsed by default — same quiet card+chevron treatment as .topics
+   details, so "what else you'll need" doesn't compete with the 4
+   walkthrough steps above it. */
+.filing-prep-note {
+  margin-top: 1rem;
+  background: var(--colour-surface);
+  border: 1.5px solid var(--colour-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1rem 1.25rem;
+}
+
+.filing-prep-note[open] {
+  padding-bottom: 1.25rem;
+}
+
+.filing-prep-note summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+  padding: 0.25rem 0;
+}
+
+.filing-prep-note summary::-webkit-details-marker {
+  display: none;
+}
+
+.filing-prep-note summary::before {
+  content: '▶ ';
+  font-size: 0.75em;
+  color: var(--colour-accent);
+}
+
+.filing-prep-note[open] summary::before {
+  content: '▼ ';
+}
+
+.filing-prep-note__intro {
+  margin-top: 0.6rem;
+  font-size: 0.92em;
+  line-height: 1.6;
+  color: var(--colour-muted);
+}
+
+.filing-prep-note ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filing-prep-note li {
+  font-size: 0.92em;
+  line-height: 1.6;
+  color: var(--colour-muted);
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--colour-border);
+}
+
 /* ─── Good-to-know ──────────────────────────────────────── */
 .good-to-know {
   display: flex;
