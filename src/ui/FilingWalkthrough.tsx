@@ -20,6 +20,7 @@ export function FilingWalkthrough({ figures }: Props) {
   const netLossBox = getBox('netLoss')
 
   return (
+    <>
     <ol className="filing-walkthrough">
       {/* Step 1: Register / log in */}
       <li className="filing-step filing-step--intro">
@@ -99,5 +100,40 @@ export function FilingWalkthrough({ figures }: Props) {
         </li>
       )}
     </ol>
+
+    {/* Collapsed by default — this app only fills in 3 boxes; everything
+        else on the return needs to come from elsewhere, but that's a lot
+        to show by default, so it stays tucked away until asked for. */}
+    <details className="filing-prep-note">
+      <summary>그 외에 준비할 것 / What else you'll need</summary>
+      <p className="filing-prep-note__intro">
+        위 세 칸은 이 앱이 채워줬어요. 신고서의 나머지를 위해 직접 준비할 게 있어요:
+        <br />
+        This app filled in the three boxes above. You'll need to prepare a few more things yourself for the rest of the return:
+      </p>
+      <ul>
+        <li>
+          국세청 등록번호(UTR)와 개인 세금 계정 로그인 — GOV.UK에서 직접 확인하세요.
+          <br />
+          Your UTR and Personal Tax Account login — check these on GOV.UK directly.
+        </li>
+        <li>
+          피아노 레슨 외 다른 수입(직장, 연금, 저축 이자 등)은 이 앱에 기록되지 않아요 — 신고서에 따로 입력하세요.
+          <br />
+          Any income besides piano lessons (a job, pension, savings interest, etc.) isn't recorded here — enter it separately on your return.
+        </li>
+        <li>
+          국가연금 자발적 납부나 배우자 공제 이전은 이 앱이 알려만 드려요 — 신청은 GOV.UK에서 직접 하세요.
+          <br />
+          Voluntary State Pension payments or a Marriage Allowance transfer are only flagged here — you apply for them separately on GOV.UK.
+        </li>
+        <li>
+          처음 신고한다면 사업을 시작한 날짜도 필요해요.
+          <br />
+          If this is your first return, you'll also need the date you started trading.
+        </li>
+      </ul>
+    </details>
+    </>
   )
 }
