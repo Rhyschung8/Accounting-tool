@@ -24,9 +24,18 @@ describe('computeNudges', () => {
     expect(nudge.bodyEn).toContain('£3.50')
     expect(nudge.bodyKo).toContain('£3.50')
   })
-  it('shows trading_allowance when expenses are under £1,000', () => {
+  it('shows trading_allowance with a computed saving when expenses are under £1,000 and profit is taxable', () => {
+    // turnover £15,000, expenses £500 → net £14,500 (taxable); allowance profit £14,000 (also taxable, but less)
+    const nudges = computeNudges(fig(1_500_000, 50000), DEFAULT_SETTINGS, r)
+    const nudge = nudges.find(n => n.id === 'trading_allowance')
+    expect(nudge).toBeDefined()
+    expect(nudge!.bodyEn).toMatch(/save you about £\d/)
+    expect(nudge!.bodyKo).toMatch(/약 £\d.*덜 낼 수 있어요/)
+  })
+  it('does not show trading_allowance when both methods land on £0 tax', () => {
+    // turnover £5,000, expenses £500 → net £4,500, well under the personal allowance either way
     const ids = computeNudges(fig(500000, 50000), DEFAULT_SETTINGS, r).map(n => n.id)
-    expect(ids).toContain('trading_allowance')
+    expect(ids).not.toContain('trading_allowance')
   })
   it('shows marriage_allowance only when income is under the allowance AND spouse is basic-rate', () => {
     const low = fig(800000, 100000) // net 700000 < personal allowance

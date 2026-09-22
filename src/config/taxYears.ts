@@ -69,8 +69,8 @@ const RATES_2026_27: TaxYearRates = {
     { minHours: 51, monthlyPence: 1800 },  // 51–100 hrs: £18 — GOV.UK confirmed (unchanged)
     { minHours: 101, monthlyPence: 2600 }, // 101+ hrs: £26 — GOV.UK confirmed (unchanged)
   ],
-  tradingAllowancePence: 100_000,          // £1,000 — UNCONFIRMED 2026/27 — recheck (carried from 2025/26)
-  marriageAllowanceBenefitPence: 25_200,   // £252 — UNCONFIRMED 2026/27 — recheck (carried from 2025/26)
+  tradingAllowancePence: 100_000,          // £1,000 — GOV.UK confirmed (unchanged since 2017)
+  marriageAllowanceBenefitPence: 25_200,   // £252 — GOV.UK confirmed (10% of the frozen £12,570 Personal Allowance)
   smallProfitsThresholdPence: 710_500,     // £7,105 — GOV.UK confirmed
   class2WeeklyPence: 365,                  // £3.65/week — GOV.UK confirmed
 }
