@@ -1190,6 +1190,12 @@ button[class=""] ,
   font-weight: 500;
 }
 
+.filing-step__breakdown summary:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
 .filing-step__breakdown ul {
   list-style: none;
   padding-left: 0.75rem;
@@ -1230,6 +1236,12 @@ button[class=""] ,
 
 .filing-prep-note summary::-webkit-details-marker {
   display: none;
+}
+
+.filing-prep-note summary:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 .filing-prep-note summary::before {
@@ -1305,6 +1317,12 @@ button[class=""] ,
 
 .topics summary::-webkit-details-marker {
   display: none;
+}
+
+.topics summary:focus-visible {
+  outline: 3px solid var(--colour-accent-dark);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 .topics summary::before {
