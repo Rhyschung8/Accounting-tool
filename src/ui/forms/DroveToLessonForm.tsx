@@ -81,7 +81,8 @@ export function DroveToLessonForm({ onDone }: { onDone: () => void }) {
           </label>
           {milesNum > 0 && (
             <p>
-              We worked this out for you: <MoneyDisplay pence={pence} />
+              <span className="lang-ko">계산해 드렸어요: <MoneyDisplay pence={pence} /></span>
+              <span className="lang-en">We worked this out for you: <MoneyDisplay pence={pence} /></span>
             </p>
           )}
           <button className="btn-primary" disabled={busy} onClick={() => add(destination, milesNum)}>저장 / Save</button>

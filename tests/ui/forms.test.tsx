@@ -116,7 +116,7 @@ describe('DroveToLessonForm', () => {
     fireEvent.change(screen.getByLabelText(/miles/i), { target: { value: '6' } })
     // R5: compute expected amount from real rate, not hardcoded £2.70
     const expected = formatPounds(mileagePence(6, getRates(currentTaxYear())))
-    expect(screen.getByText(new RegExp(expected.replace('.', '\\.')))).toBeInTheDocument()
+    expect(screen.getAllByText(new RegExp(expected.replace('.', '\\.')))[0]).toBeInTheDocument()
   })
 
   it('saves a journey entry on save click', async () => {
@@ -152,7 +152,7 @@ describe('DroveToLessonForm', () => {
     fireEvent.change(screen.getByLabelText(/miles/i), { target: { value: '20' } })
     // 20 more miles: 10 at higher rate (to reach 10k), 10 at lower rate.
     const expected = formatPounds(mileagePence(20, rates, already))
-    expect(screen.getByText(new RegExp(expected.replace('.', '\\.')))).toBeInTheDocument()
+    expect(screen.getAllByText(new RegExp(expected.replace('.', '\\.')))[0]).toBeInTheDocument()
     // Sanity: the split really is lower than a naive full-higher-rate cost.
     expect(mileagePence(20, rates, already)).toBeLessThan(mileagePence(20, rates, 0))
   })

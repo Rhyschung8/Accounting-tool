@@ -52,7 +52,8 @@ export function SummaryPanel({ taxYear }: { taxYear: string }) {
           <div className="stat-card__num">
             {s.estimate.isLoss ? (
               <span className="summary__loss">
-                이번 해는 지출이 수입보다 많았어요. / This year your costs were higher than your income — that&apos;s okay.
+                <span className="lang-ko">이번 해는 지출이 수입보다 많았어요.</span>
+                <span className="lang-en">This year your costs were higher than your income — that&apos;s okay.</span>
               </span>
             ) : (
               <MoneyDisplay pence={s.profitPence} />
@@ -69,7 +70,10 @@ export function SummaryPanel({ taxYear }: { taxYear: string }) {
             {' '}
             <span className="lang-en" style={{ color: 'var(--colour-muted)', display: 'inline' }}>{strings.estimatedTax.en}</span>
           </span>
-          <p className="tax-line__caveat">{strings.estimateCaveat.ko} / {strings.estimateCaveat.en}</p>
+          <p className="tax-line__caveat">
+            <span className="lang-ko">{strings.estimateCaveat.ko}</span>
+            <span className="lang-en">{strings.estimateCaveat.en}</span>
+          </p>
         </div>
         {!s.estimate.isLoss && s.estimate.totalPence === 0 ? (
           <span className="tax-line__no-tax">

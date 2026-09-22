@@ -52,13 +52,19 @@ export function computeNudges(figures: FilingFigures, settings: Settings, rates:
   }
 
   if (figures.turnoverPence > rates.tradingAllowancePence && figures.expensesPence < rates.tradingAllowancePence) {
-    out.push({
-      id: 'trading_allowance',
-      titleKo: '£1,000 거래 공제가 더 유리할 수 있어요', titleEn: 'The £1,000 trading allowance may be better',
-      bodyKo: '올해 경비가 £1,000보다 적어요. 실제 경비 대신 £1,000 거래 공제를 청구하면 세금이 더 줄 수 있어요. 두 가지를 비교해 보세요.',
-      bodyEn: 'Your expenses this year are under £1,000. Claiming the flat £1,000 trading allowance instead of your actual expenses may reduce your tax more. Worth comparing both.',
-      govUkUrl: 'https://www.gov.uk/guidance/tax-free-allowances-on-property-and-trading-income',
-    })
+    const allowanceProfit = Math.max(0, figures.turnoverPence - rates.tradingAllowancePence)
+    const allowanceEstimate = estimate(allowanceProfit, settings.otherIncomePence, rates)
+    const savingsPence = taxEstimate.totalPence - allowanceEstimate.totalPence
+    if (savingsPence > 0) {
+      const savings = formatPounds(savingsPence)
+      out.push({
+        id: 'trading_allowance',
+        titleKo: '£1,000 거래 공제가 더 유리할 수 있어요', titleEn: 'The £1,000 trading allowance may be better',
+        bodyKo: `올해 경비가 £1,000보다 적어요. 실제 경비 대신 £1,000 거래 공제를 청구하면 세금을 약 ${savings} 덜 낼 수 있어요. 두 가지를 비교해 보세요.`,
+        bodyEn: `Your expenses this year are under £1,000. Claiming the flat £1,000 trading allowance instead of your actual expenses could save you about ${savings} in tax. Worth comparing both.`,
+        govUkUrl: 'https://www.gov.uk/guidance/tax-free-allowances-on-property-and-trading-income',
+      })
+    }
   }
 
   const totalIncome = settings.otherIncomePence + Math.max(0, figures.netPence)

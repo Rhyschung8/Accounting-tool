@@ -18,8 +18,8 @@ export function NudgesPanel({ taxYear }: { taxYear: string }) {
             <span className="lang-ko">{n.titleKo}</span>
             <span className="lang-en">{n.titleEn}</span>
           </h3>
-          <p>{n.bodyKo}</p>
-          <p>{n.bodyEn}</p>
+          <p className="lang-ko">{n.bodyKo}</p>
+          <p className="lang-en">{n.bodyEn}</p>
           <a href={n.govUkUrl} target="_blank" rel="noreferrer">자세히 / Learn more</a>
         </div>
       ))}
