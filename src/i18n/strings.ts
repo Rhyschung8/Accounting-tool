@@ -14,6 +14,3 @@ export const strings = {
   recentlyDeleted: { ko: '최근 삭제', en: 'Recently deleted' },
   undo: { ko: '되돌리기', en: 'Undo' },
 } as const
-
-export type StringKey = keyof typeof strings
-export const bilingual = (k: StringKey) => `${strings[k].ko} / ${strings[k].en}`
