@@ -3,8 +3,9 @@ import type { FilingFigures } from './filingFigures'
 import type { Settings } from '../storage/storage'
 import type { TaxYearRates } from '../config/taxYears'
 import { formatPounds } from './money'
+import { estimate } from './taxEngine'
 
-export type NudgeId = 'must_file' | 'state_pension' | 'trading_allowance' | 'marriage_allowance'
+export type NudgeId = 'must_file' | 'payments_on_account' | 'state_pension' | 'trading_allowance' | 'marriage_allowance'
 export interface Nudge {
   id: NudgeId
   titleKo: string; titleEn: string
@@ -22,6 +23,20 @@ export function computeNudges(figures: FilingFigures, settings: Settings, rates:
       bodyKo: '수입이 £1,000를 넘으면 예상 세금이 £0이라도 자영업 등록과 자기신고(Self Assessment) 제출이 필요해요. 마감일: 1월 31일.',
       bodyEn: 'Once your income passes £1,000 you must register as self-employed and file a Self Assessment, even if the estimated tax is £0. Deadline: 31 January.',
       govUkUrl: 'https://www.gov.uk/self-assessment-tax-returns',
+    })
+  }
+
+  // Payments on account: once Income Tax + Class 4 NI for the year tops £1,000,
+  // HMRC also collects 50% of next year's estimated bill by 31 January (on top of
+  // this year's tax) and the other 50% by 31 July — a common first-year surprise.
+  const taxEstimate = estimate(figures.netPence, settings.otherIncomePence, rates)
+  if (!taxEstimate.isLoss && taxEstimate.totalPence > 100_000) {
+    out.push({
+      id: 'payments_on_account',
+      titleKo: '선납(Payments on Account) 준비하기', titleEn: 'Payments on account — plan for advance payments',
+      bodyKo: '올해 세금과 국민보험이 £1,000를 넘으면, HMRC는 내년 세금의 절반도 미리 내라고 요청해요. 1월 31일에는 올해 세금 전액과 내년 세금 예상액의 절반을, 7월 31일에는 나머지 절반을 내야 해요. 그래서 이 금액을 처음 넘는 해 1월에는, 실제로 내는 돈이 위 예상 세금의 약 1.5배가 될 수 있어요.',
+      bodyEn: "If your tax and National Insurance for the year go over £1,000, HMRC will also ask you to pay 50% of next year's estimated bill in advance. On 31 January you pay this year's tax in full plus that 50%; the other 50% is due by 31 July. So in January of the first year this happens, what you pay can be about 1.5 times the estimated tax shown above.",
+      govUkUrl: 'https://www.gov.uk/understand-self-assessment-bill/payments-on-account',
     })
   }
 

@@ -34,4 +34,18 @@ describe('computeNudges', () => {
     const withSpouse = { ...DEFAULT_SETTINGS, spouseIsBasicRateTaxpayer: true }
     expect(computeNudges(low, withSpouse, r).map(n => n.id)).toContain('marriage_allowance')
   })
+  it('does not show payments_on_account when tax + Class 4 NI stays under £1,000', () => {
+    // profit £16,000 → taxable £3,430 → tax+NI 26% = £891.80, under £1,000
+    const ids = computeNudges(fig(1_600_000, 0), DEFAULT_SETTINGS, r).map(n => n.id)
+    expect(ids).not.toContain('payments_on_account')
+  })
+  it('shows payments_on_account once tax + Class 4 NI exceeds £1,000', () => {
+    // profit £17,000 → taxable £4,430 → tax+NI 26% = £1,151.80, over £1,000
+    const ids = computeNudges(fig(1_700_000, 0), DEFAULT_SETTINGS, r).map(n => n.id)
+    expect(ids).toContain('payments_on_account')
+  })
+  it('does not show payments_on_account on a loss', () => {
+    const ids = computeNudges(fig(100000, 500000), DEFAULT_SETTINGS, r).map(n => n.id)
+    expect(ids).not.toContain('payments_on_account')
+  })
 })
