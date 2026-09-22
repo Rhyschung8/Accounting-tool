@@ -65,6 +65,25 @@ export const GOOD_TO_KNOW: GuidanceTopic[] = [
     checkedOn: '2026-09-18',
   },
   {
+    id: 'penalties',
+    titleKo: '신고나 납부가 늦으면 어떻게 되나요?',
+    titleEn: 'What happens if you file or pay late?',
+    bodyKo:
+      '1월 31일까지 온라인 신고서를 제출하지 않으면, 낼 세금이 없더라도 즉시 £100의 고정 벌금이 부과됩니다. ' +
+      '3개월이 지나도 신고하지 않으면 최대 90일 동안 하루 £10씩 벌금이 추가로 쌓입니다(최대 £900). ' +
+      '그 신고 기한(1월 31일)으로부터 6개월이 지나면 세금의 5%와 £300 중 더 큰 금액이, 12개월이 지나면 또 한 번 같은 금액이 추가로 부과됩니다. ' +
+      '이와는 별도로, 세금 납부가 늦어지면 밀린 금액에 매일 이자가 붙고, 납부 마감일로부터 30일·6개월·12개월이 지날 때마다 밀린 세금의 5%씩 별도의 벌금이 부과됩니다. ' +
+      '벌금 통지서를 받으면 30일 안에 납부해야 하며, 정당한 사유가 있다면 이의를 제기할 수 있습니다.',
+    bodyEn:
+      "If you don't submit your online return by 31 January, you get an immediate £100 fixed penalty — even if you owe no tax. " +
+      "If you still haven't filed after 3 months, daily penalties of £10 add up for up to 90 days (up to £900). " +
+      'Measured from that same 31 January deadline, a further penalty applies after 6 months — 5% of the tax due or £300, whichever is greater — and the same again after 12 months. ' +
+      'Paying late is a separate track: interest builds up daily on the unpaid amount, plus a 5% penalty on the unpaid tax at each of 30 days, 6 months, and 12 months after the payment deadline. ' +
+      'You must pay any penalty within 30 days of the notice, and you can appeal if you have a reasonable excuse.',
+    govUkUrl: 'https://www.gov.uk/self-assessment-tax-returns/penalties',
+    checkedOn: '2026-09-22',
+  },
+  {
     id: 'words-you-might-see',
     titleKo: '자주 보이는 용어들',
     titleEn: 'Words you might see',

@@ -35,6 +35,20 @@ describe('FilingDeadlineReminder', () => {
     expect(container.querySelector('.deadline-reminder--urgent')).toBeInTheDocument()
   })
 
+  it('does not warn about the penalty well before the deadline', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-09-21'))
+    await mountWith(['2022-05-01'])
+    expect(screen.queryByText(/£100 penalty/)).not.toBeInTheDocument()
+  })
+
+  it('warns about the £100 penalty once urgent', async () => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2027-01-10'))
+    await mountWith(['2022-05-01'])
+    expect(screen.getByText(/£100 penalty/)).toBeInTheDocument()
+  })
+
   it('renders nothing in the quiet gap after a deadline has passed', async () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-02-15'))

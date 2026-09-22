@@ -626,6 +626,13 @@ a:focus-visible {
   color: var(--colour-warning);
 }
 
+.deadline-reminder__penalty {
+  font-size: var(--fs-sub);
+  color: #9A4E2C;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
 /* ─── Welcome hint (M4) ─────────────────────────────────── */
 .welcome-hint {
   background: #F3F7F2;            /* faint sage tint */

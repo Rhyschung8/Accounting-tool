@@ -33,6 +33,12 @@ export function FilingDeadlineReminder() {
           <span className="lang-ko">{year}년 1월 31일까지 온라인 신고 및 납부</span>
           <span className="lang-en">Online filing &amp; payment due 31 January {year}</span>
         </p>
+        {urgent && (
+          <p className="deadline-reminder__penalty">
+            <span className="lang-ko">놓치면 세금이 없어도 £100 벌금이 바로 부과돼요</span>
+            <span className="lang-en">Miss it and you get an instant £100 penalty, even if you owe no tax</span>
+          </p>
+        )}
       </div>
     </section>
   )

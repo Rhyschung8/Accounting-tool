@@ -14,4 +14,10 @@ describe('guidance config', () => {
     const terms = GLOSSARY.map(g => g.termEn.toLowerCase())
     expect(terms).toEqual(expect.arrayContaining(['turnover', 'profit', 'allowance']))
   })
+  it('explains late-filing and late-payment penalties', () => {
+    const topic = GOOD_TO_KNOW.find(t => t.id === 'penalties')
+    expect(topic).toBeDefined()
+    expect(topic!.bodyEn).toMatch(/£100/)
+    expect(topic!.bodyEn).toMatch(/90 days/)
+  })
 })
